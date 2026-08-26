@@ -1,0 +1,6 @@
+@ResumoCash.Api_HostAddress = http://localhost:5188
+
+GET {{ResumoCash.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
