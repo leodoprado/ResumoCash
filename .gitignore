@@ -1,0 +1,217 @@
+# ==========================
+
+# Build
+
+# ==========================
+
+[Bb]in/
+[Oo]bj/
+artifacts/
+publish/
+Published/
+
+# ==========================
+
+# Visual Studio
+
+# ==========================
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# ==========================
+
+# Visual Studio Code
+
+# ==========================
+
+.vscode/
+
+# ==========================
+
+# JetBrains Rider
+
+# ==========================
+
+.idea/
+*.sln.iml
+
+# ==========================
+
+# Rider / ReSharper
+
+# ==========================
+
+_ReSharper*/
+*.DotSettings.user
+
+# ==========================
+
+# .NET
+
+# ==========================
+
+TestResults/
+BenchmarkDotNet.Artifacts/
+
+*.cache
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# ==========================
+
+# NuGet
+
+# ==========================
+
+packages/
+*.nupkg
+*.snupkg
+
+# ==========================
+
+# Entity Framework
+
+# ==========================
+
+*.dbmdl
+
+# ==========================
+
+# SQLite (caso seja utilizado futuramente)
+
+# ==========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================
+
+# Local databases
+
+# ==========================
+
+*.mdf
+*.ldf
+
+# ==========================
+
+# User Secrets
+
+# ==========================
+
+secrets.json
+
+# ==========================
+
+# Environment Variables
+
+# ==========================
+
+.env
+.env.*
+!.env.example
+
+# ==========================
+
+# Local Configuration
+
+# ==========================
+
+appsettings.Local.json
+appsettings.*.Local.json
+appsettings.Secrets.json
+
+# launchSettings local
+
+**/Properties/launchSettings.local.json
+
+# ==========================
+
+# Certificates
+
+# ==========================
+
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+
+# ==========================
+
+# Docker
+
+# ==========================
+
+docker-compose.override.yml
+
+# ==========================
+
+# Node (caso utilize Tailwind/Vite futuramente)
+
+# ==========================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================
+
+# Front-end Build
+
+# ==========================
+
+wwwroot/dist/
+wwwroot/build/
+
+# ==========================
+
+# Coverage
+
+# ==========================
+
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+
+# ==========================
+
+# Azure
+
+# ==========================
+
+.azure/
+
+# ==========================
+
+# OS
+
+# ==========================
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==========================
+
+# Temporary files
+
+# ==========================
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
