@@ -1,11 +1,15 @@
 <Solution>
   <Folder Name="/backend/">
-    <Project Path="ResumoCash.Api/ResumoCash.Api.csproj" Id="e11096e4-a754-41fb-9497-18c38dacc261" />
-    <Project Path="ResumoCash.Application/ResumoCash.Application.csproj" Id="394d0c3c-3085-421f-89f4-792a5926ae94" />
-    <Project Path="ResumoCash.Domain/ResumoCash.Domain.csproj" Id="2b15eb05-b9b8-4bc6-96d8-a2ec79b02fa0" />
-    <Project Path="ResumoCash.Infrastructure/ResumoCash.Infrastructure.csproj" Id="572c4dfb-f848-4848-996d-ec7aefd89418" />
+    <Project Path="backend/ResumoCash.Api/ResumoCash.Api.csproj" />
+    <Project Path="backend/ResumoCash.Application/ResumoCash.Application.csproj" />
+    <Project Path="backend/ResumoCash.Domain/ResumoCash.Domain.csproj" />
+    <Project Path="backend/ResumoCash.Infrastructure/ResumoCash.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/frontend/">
+    <File Path=".gitkeep" />
   </Folder>
   <Folder Name="/Itens de Solução/">
     <File Path=".gitignore" />
+    <File Path="README.md" />
   </Folder>
 </Solution>
