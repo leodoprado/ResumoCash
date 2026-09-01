@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/backend/">
+    <File Path="docker-compose.yml" />
     <Project Path="backend/ResumoCash.Api/ResumoCash.Api.csproj" />
     <Project Path="backend/ResumoCash.Application/ResumoCash.Application.csproj" />
     <Project Path="backend/ResumoCash.Domain/ResumoCash.Domain.csproj" />
