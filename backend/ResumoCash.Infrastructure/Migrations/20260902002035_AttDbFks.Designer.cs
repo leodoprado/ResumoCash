@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResumoCash.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using ResumoCash.Infrastructure.Persistence;
 namespace ResumoCash.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260902002035_AttDbFks")]
+    partial class AttDbFks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,8 @@ namespace ResumoCash.Infrastructure.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("categories", (string)null);
                 });
@@ -106,15 +111,9 @@ namespace ResumoCash.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "CategoryId");
-
-                    b.HasIndex("UserId", "CompetenceMonth");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("transactions", (string)null);
                 });
@@ -177,22 +176,13 @@ namespace ResumoCash.Infrastructure.Migrations
 
             modelBuilder.Entity("ResumoCash.Domain.Entities.Transaction", b =>
                 {
-                    b.HasOne("ResumoCash.Domain.Entities.User", "User")
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("ResumoCash.Domain.Entities.Category", "Category")
                         .WithMany("Transactions")
-                        .HasForeignKey("UserId", "CategoryId")
-                        .HasPrincipalKey("UserId", "Id")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ResumoCash.Domain.Entities.Category", b =>
@@ -203,8 +193,6 @@ namespace ResumoCash.Infrastructure.Migrations
             modelBuilder.Entity("ResumoCash.Domain.Entities.User", b =>
                 {
                     b.Navigation("Categories");
-
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
