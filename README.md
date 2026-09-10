@@ -4,3 +4,8 @@
 ```
 $ dotnet run --project backend/ResumoCash.Api/ResumoCash.Api.csproj
 ```
+
+Application → abstrações
+Infrastructure → implementações
+Domain → regras e contratos
+API → recebe HTTP e chama Application

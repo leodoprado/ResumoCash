@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ResumoCash.Application\ResumoCash.Application.csproj" />
     <ProjectReference Include="..\ResumoCash.Infrastructure\ResumoCash.Infrastructure.csproj" />
   </ItemGroup>
 

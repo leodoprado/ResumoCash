@@ -5,12 +5,18 @@ public class Category
 {
     public Category(Guid userId, string name, TransactionType type)
     {
+        if (userId == Guid.Empty)
+            throw new ArgumentException("O usuário é obrigatório.");
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("O nome é obrigatório.");
+
         Id = Guid.NewGuid();
         UserId = userId;
         Name = name;
         Type = type;
         Active = true;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public Guid Id { get; private set; }
@@ -26,18 +32,18 @@ public class Category
     public void AtualizarNome(string name)
     {
         Name = name;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Desativar()
     {
         Active = false;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Ativar()
     {
         Active = true;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

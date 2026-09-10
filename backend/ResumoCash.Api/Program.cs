@@ -1,14 +1,25 @@
+using ResumoCash.Application.Categories.Create;
+using ResumoCash.Application.Categories.GetById;
+using ResumoCash.Domain.Repositories;
 using ResumoCash.Infrastructure;
+using ResumoCash.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Controllers
+builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
+// Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Infrastructure
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Dependências
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<CreateCategoryService>();
+builder.Services.AddScoped<GetCategoryByIdService>();
 
 var app = builder.Build();
 
@@ -19,5 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Mapeia as rotas dos Controllers
+app.MapControllers();
 
 app.Run();

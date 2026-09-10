@@ -6,8 +6,26 @@ namespace ResumoCash.Domain.Entities;
 
 public class Transaction
 {
-    public Transaction(Guid categoryId, Guid userId, string description, decimal amount, DateOnly competenceMonth, DateOnly? dueDate)
+    public Transaction(
+        Guid categoryId, 
+        Guid userId, 
+        string description, 
+        decimal amount, 
+        DateOnly competenceMonth, 
+        DateOnly? dueDate)
     {
+        if (categoryId == Guid.Empty)
+            throw new ArgumentException("A categoria é obrigatória.");
+
+        if (userId == Guid.Empty)
+            throw new ArgumentException("O usuário é obrigatório.");
+
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("A descrição é obrigatória.");
+
+        if (amount <= 0)
+            throw new ArgumentException("O valor deve ser maior que zero.");
+
         Id = Guid.NewGuid();
         UserId = userId;
         CategoryId = categoryId;
@@ -16,7 +34,7 @@ public class Transaction
         CompetenceMonth = new DateOnly(competenceMonth.Year, competenceMonth.Month, 1);
         DueDate = dueDate;
         IsCompleted = false;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public Guid Id { get; private set; }
@@ -39,35 +57,35 @@ public class Transaction
             throw new ArgumentException("A descrição é obrigatória.");
 
         Description = description;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AtyakuzarValor(decimal amount)
+    public void AtualizarValor(decimal amount)
     {
         if (amount <= 0)
             throw new ArgumentException("O valor deve ser maior que zero.");
 
         Amount = amount;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void AtualizarVencimento(DateOnly? dueDate)
     {
         DueDate = dueDate;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Concluir()
     {
         IsCompleted = true;
-        CompletedAt = DateTime.Now;
-        UpdatedAt = DateTime.Now;
+        CompletedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Reabrir()
     {
         IsCompleted = false;
         CompletedAt = null;
-        UpdatedAt = DateTime.Now;
+        UpdatedAt = DateTime.UtcNow;
     }
 }
