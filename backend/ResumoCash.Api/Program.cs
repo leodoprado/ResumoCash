@@ -1,4 +1,5 @@
 using ResumoCash.Application.Categories.Create;
+using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Domain.Repositories;
 using ResumoCash.Infrastructure;
@@ -20,6 +21,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<CreateCategoryService>();
 builder.Services.AddScoped<GetCategoryByIdService>();
+builder.Services.AddScoped<GetCategoriesService>();
 
 var app = builder.Build();
 

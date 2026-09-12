@@ -15,7 +15,7 @@ public class Category
         UserId = userId;
         Name = name;
         Type = type;
-        Active = true;
+        Status = CategoryStatus.Active;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -23,7 +23,7 @@ public class Category
     public Guid UserId { get; private set; }
     public TransactionType Type { get; private set; }
     public string Name { get; private set; }
-    public bool Active { get; private set; }
+    public CategoryStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public User User { get; private set; } = null!;
@@ -37,13 +37,13 @@ public class Category
 
     public void Desativar()
     {
-        Active = false;
+        Status = CategoryStatus.Inactive;
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void Ativar()
     {
-        Active = true;
+        Status = CategoryStatus.Active;
         UpdatedAt = DateTime.UtcNow;
     }
 }

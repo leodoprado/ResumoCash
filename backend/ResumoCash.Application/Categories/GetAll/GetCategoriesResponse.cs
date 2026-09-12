@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ResumoCash.Application.Categories.GetById;
+namespace ResumoCash.Application.Categories.GetAll;
 
-public record GetCategoryByIdResponse(
+public record GetCategoriesResponse(
     Guid Id,
     string Name,
     TransactionType Type,
-    CategoryStatus Status,
-    DateTime CreatedAt
+    CategoryStatus Status
 );

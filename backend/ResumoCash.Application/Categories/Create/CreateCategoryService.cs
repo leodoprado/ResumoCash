@@ -19,6 +19,8 @@ public class CreateCategoryService
         Guid userId,
         CreateCategoryRequest request)
     {
+        var name = request.Name.Trim();
+
         var exists = await _categoryRepository.ExistsByNameAsync(userId, request.Name);
 
         if (exists)
@@ -26,7 +28,7 @@ public class CreateCategoryService
 
         var category = new Category(
             userId,
-            request.Name,
+            name,
             request.Type);
 
         await _categoryRepository.AddAsync(category);

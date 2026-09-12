@@ -28,9 +28,11 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(x => x.Active)
-            .HasColumnName("active")
-            .IsRequired();
+        builder.Property(x => x.Status)
+            .HasColumnName("status")
+            .HasMaxLength(20)
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at")

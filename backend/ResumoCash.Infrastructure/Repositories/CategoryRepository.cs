@@ -14,35 +14,51 @@ public class CategoryRepository : ICategoryRepository
         _context = context;
     }
 
-    public async Task AddAsync(Category category)
+    public async Task AddAsync(
+        Category category,
+        CancellationToken cancellationToken = default)
     {
-        await _context.Categories
-            .AddAsync(category);
+        await _context.Categories.AddAsync(
+            category,
+            cancellationToken);
     }
 
-    public async Task<bool> ExistsByNameAsync(Guid userId, string name)
+    public async Task<bool> ExistsByNameAsync(
+        Guid userId,
+        string name,
+        CancellationToken cancellationToken = default)
     {
         return await _context.Categories
-            .AnyAsync(x => x.UserId == userId && x.Name == name);
+            .AnyAsync(
+                x => x.UserId == userId &&
+                     x.Name == name,
+                cancellationToken);
     }
 
-    public async Task<Category?> GetByIdAsync(Guid id)
+    public async Task<Category?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
     {
         return await _context.Categories
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(
+                x => x.Id == id,
+                cancellationToken);
     }
 
-    public async Task<IEnumerable<Category>> GetByUserIdAsync(Guid userId)
+    public async Task<IEnumerable<Category>> GetByUserIdAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default)
     {
         return await _context.Categories
             .AsNoTracking()
             .Where(x => x.UserId == userId)
             .OrderBy(x => x.Name)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(
+        CancellationToken cancellationToken = default)
     {
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

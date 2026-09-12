@@ -30,7 +30,7 @@ public class GetCategoryByIdService
             category.Id,
             category.Name,
             category.Type,
-            category.Active,
+            category.Status,
             category.CreatedAt
         );
     }
