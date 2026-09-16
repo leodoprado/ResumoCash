@@ -1,6 +1,7 @@
 using ResumoCash.Application.Categories.Create;
 using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
+using ResumoCash.Application.Categories.Update;
 using ResumoCash.Domain.Repositories;
 using ResumoCash.Infrastructure;
 using ResumoCash.Infrastructure.Repositories;
@@ -8,7 +9,11 @@ using ResumoCash.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(
+        new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +27,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<CreateCategoryService>();
 builder.Services.AddScoped<GetCategoryByIdService>();
 builder.Services.AddScoped<GetCategoriesService>();
+builder.Services.AddScoped<UpdateCategoryService>();
 
 var app = builder.Build();
 

@@ -29,9 +29,11 @@ public class Category
     public User User { get; private set; } = null!;
     public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
 
-    public void AtualizarNome(string name)
+    public void Atualizar(string name, TransactionType type, CategoryStatus status)
     {
         Name = name;
+        Type = type;
+        Status = status;
         UpdatedAt = DateTime.UtcNow;
     }
 

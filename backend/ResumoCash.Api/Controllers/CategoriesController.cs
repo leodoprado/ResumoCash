@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Application.Categories.Create;
+using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
+using ResumoCash.Application.Categories.Update;
 
 namespace ResumoCash.Api.Controllers;
 
@@ -10,12 +12,19 @@ public class CategoriesController : ControllerBase
 {
     private readonly CreateCategoryService _createCategoryService;
     private readonly GetCategoryByIdService _getCategoryByIdService;
+    private readonly GetCategoriesService _getCategoriesService;
+    private readonly UpdateCategoryService _updateCategoryService;
 
-    public CategoriesController(CreateCategoryService createCategoryService, GetCategoryByIdService getCategoryByIdService)
+    public CategoriesController(
+        CreateCategoryService createCategoryService, 
+        GetCategoryByIdService getCategoryByIdService,
+        GetCategoriesService getCategoriesService,
+        UpdateCategoryService updateCategoryService)
     {
         _createCategoryService = createCategoryService;
         _getCategoryByIdService = getCategoryByIdService;
-
+        _getCategoriesService = getCategoriesService;
+        _updateCategoryService = updateCategoryService;
     }
 
     [HttpPost]
@@ -28,6 +37,16 @@ public class CategoriesController : ControllerBase
         var result = await _createCategoryService.ExecuteAsync(userId, request);
 
         return Created($"/api/categories/{result.Id}", result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var userId = Guid.Parse(
+            "11111111-1111-1111-1111-111111111111"
+        );
+        var categories = await _getCategoriesService.ExecuteAsync(userId);
+        return Ok(categories);
     }
 
     [HttpGet("{id:guid}")]
@@ -44,5 +63,19 @@ public class CategoriesController : ControllerBase
             return NotFound();
 
         return Ok(category);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        UpdateCategoryRequest request)
+    {
+        var userId = Guid.Parse(
+            "11111111-1111-1111-1111-111111111111"
+        );
+
+        var result = await _updateCategoryService.ExecuteAsync(userId, id, request);
+            
+        return Ok(result);
     }
 }
