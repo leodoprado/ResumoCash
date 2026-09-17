@@ -1,1 +1,128 @@
-<p>profile works!</p>
+<div class="profile-page">
+  <header class="topbar">
+    <div class="topbar__content">
+      <a routerLink="/" class="topbar__brand" title="Voltar para a tela inicial">
+        <img src="/resumocash.svg" alt="ResumoCash" />
+      </a>
+
+      <div class="topbar__actions">
+        <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
+
+        <a routerLink="/categories" class="topbar__link"> Categorias </a>
+
+        <a routerLink="/transactions" class="topbar__link"> Transações </a>
+
+        <a routerLink="/profile" class="profile-avatar"> L </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="page-header">
+      <div>
+        <span class="page-header__eyebrow"> Minha conta </span>
+
+        <h1>Perfil</h1>
+
+        <p>Gerencie suas informações pessoais e dados da conta.</p>
+      </div>
+    </section>
+
+    <div class="profile-grid">
+      <section class="panel user-card">
+        <div class="user-card__avatar">L</div>
+
+        <div class="user-card__info">
+          <h2>Leonardo</h2>
+
+          <span>leonardo@email.com</span>
+        </div>
+
+        <div class="user-card__status">Conta ativa</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <span>Informações</span>
+            <h2>Dados pessoais</h2>
+          </div>
+        </div>
+
+        <form class="form">
+          <div class="form-group">
+            <label for="name"> Nome </label>
+
+            <input id="name" type="text" value="Leonardo" />
+          </div>
+
+          <div class="form-group">
+            <label for="email"> E-mail </label>
+
+            <input id="email" type="email" value="leonardo@email.com" />
+          </div>
+
+          <div class="form__actions">
+            <button type="button" class="btn-save">Salvar alterações</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel password-panel">
+        <div class="panel__header">
+          <div>
+            <span>Segurança</span>
+            <h2>Alterar senha</h2>
+          </div>
+        </div>
+
+        <form class="form">
+          <div class="form-group">
+            <label for="current-password"> Senha atual </label>
+
+            <input id="current-password" type="password" placeholder="Digite sua senha atual" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="new-password"> Nova senha </label>
+
+              <input id="new-password" type="password" placeholder="Nova senha" />
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password"> Confirmar senha </label>
+
+              <input id="confirm-password" type="password" placeholder="Confirme a nova senha" />
+            </div>
+          </div>
+
+          <div class="form__actions">
+            <button type="button" class="btn-secondary">Alterar senha</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel account-panel">
+        <div class="panel__header">
+          <div>
+            <span>Conta</span>
+            <h2>Informações da conta</h2>
+          </div>
+        </div>
+
+        <div class="account-info">
+          <div class="account-info__item">
+            <span>Status</span>
+            <strong class="account-status"> Ativa </strong>
+          </div>
+
+          <div class="account-info__item">
+            <span>Membro desde</span>
+            <strong> Setembro de 2026 </strong>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

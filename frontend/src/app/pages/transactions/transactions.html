@@ -1,1 +1,135 @@
-<p>transactions works!</p>
+<div class="transactions-page">
+  <header class="topbar">
+    <div class="topbar__content">
+      <a routerLink="/" class="topbar__brand" title="Voltar para a tela inicial">
+        <img src="/resumocash.svg" alt="ResumoCash" />
+      </a>
+
+      <div class="topbar__actions">
+        <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
+
+        <a routerLink="/categories" class="topbar__link"> Categorias </a>
+
+        <a routerLink="/profile" class="profile"> L </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="page-header">
+      <div>
+        <span class="page-header__eyebrow"> Movimentações </span>
+
+        <h1>Transações</h1>
+
+        <p>Acompanhe suas receitas e despesas em um só lugar.</p>
+      </div>
+
+      <button type="button" class="new-transaction" (click)="openForm()">
+        <span>+</span>
+        Nova transação
+      </button>
+    </section>
+
+    <section class="summary">
+      <article class="summary-card">
+        <span>Receitas no mês</span>
+
+        <strong class="positive"> R$ 5.800,00 </strong>
+      </article>
+
+      <article class="summary-card">
+        <span>Despesas no mês</span>
+
+        <strong class="negative"> R$ 2.340,00 </strong>
+      </article>
+
+      <article class="summary-card">
+        <span>Resultado</span>
+
+        <strong> R$ 3.460,00 </strong>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel__header">
+        <div>
+          <span>Histórico</span>
+          <h2>Suas transações</h2>
+        </div>
+
+        <div class="filters">
+          <select>
+            <option>Setembro 2026</option>
+            <option>Agosto 2026</option>
+            <option>Julho 2026</option>
+          </select>
+
+          <select>
+            <option>Todas</option>
+            <option>Receitas</option>
+            <option>Despesas</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="transaction-list">
+        <div class="transaction">
+          <div class="transaction__icon expense">↓</div>
+
+          <div class="transaction__info">
+            <strong>Supermercado</strong>
+            <span>Alimentação · 16/09/2026</span>
+          </div>
+
+          <strong class="transaction__value negative"> - R$ 240,90 </strong>
+
+          <button class="transaction__action">Editar</button>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon income">↑</div>
+
+          <div class="transaction__info">
+            <strong>Salário</strong>
+            <span>Salário · 05/09/2026</span>
+          </div>
+
+          <strong class="transaction__value positive"> + R$ 4.500,00 </strong>
+
+          <button class="transaction__action">Editar</button>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon expense">↓</div>
+
+          <div class="transaction__info">
+            <strong>Streaming</strong>
+            <span>Assinaturas · 10/09/2026</span>
+          </div>
+
+          <strong class="transaction__value negative"> - R$ 55,90 </strong>
+
+          <button class="transaction__action">Editar</button>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon income">↑</div>
+
+          <div class="transaction__info">
+            <strong>Projeto freelance</strong>
+            <span>Freelance · 12/09/2026</span>
+          </div>
+
+          <strong class="transaction__value positive"> + R$ 1.300,00 </strong>
+
+          <button class="transaction__action">Editar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  @if (showForm) {
+    <app-transaction-modal (close)="closeForm()" />
+  }
+</div>

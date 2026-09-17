@@ -29,6 +29,12 @@
   justify-content: space-between;
 }
 
+.new-transaction {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .topbar__brand {
   display: flex;
   align-items: center;

@@ -25,10 +25,10 @@
         <p>Aqui está um resumo da sua vida financeira.</p>
       </div>
 
-      <a routerLink="/transactions" class="new-transaction">
+      <button type="button" class="new-transaction" (click)="openTransactionForm()">
         <span>+</span>
         Nova transação
-      </a>
+      </button>
     </section>
 
     <section class="summary">
@@ -157,4 +157,8 @@
       </aside>
     </section>
   </main>
+
+  @if (showTransactionForm) {
+    <app-transaction-modal (close)="closeTransactionForm()" />
+  }
 </div>

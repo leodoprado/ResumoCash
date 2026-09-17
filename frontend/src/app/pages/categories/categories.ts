@@ -1,9 +1,20 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './categories.html',
-  styleUrl: './categories.scss',
+  styleUrl: './categories.scss'
 })
-export class Categories {}
+export class Categories {
+  showForm = false;
+
+  openForm() {
+    this.showForm = true;
+  }
+
+  closeForm() {
+    this.showForm = false;
+  }
+}

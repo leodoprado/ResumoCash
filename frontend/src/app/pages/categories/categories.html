@@ -1,1 +1,227 @@
-<p>categories works!</p>
+<div class="categories-page">
+  <header class="topbar">
+    <div class="topbar__content">
+      <a routerLink="/" class="topbar__brand" title="Voltar para a tela inicial">
+        <img src="/resumocash.svg" alt="ResumoCash" />
+      </a>
+
+      <div class="topbar__actions">
+        <a routerLink="/dashboard" class="topbar__link">
+          Dashboard
+        </a>
+
+        <a routerLink="/transactions" class="topbar__link">
+          Transações
+        </a>
+
+        <a routerLink="/profile" class="profile">
+          L
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="page-header">
+      <div>
+        <span class="page-header__eyebrow">
+          Organização
+        </span>
+
+        <h1>Categorias</h1>
+
+        <p>
+          Organize suas receitas e despesas em categorias.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="new-category"
+        (click)="openForm()"
+      >
+        <span>+</span>
+        Nova categoria
+      </button>
+    </section>
+
+    <section class="panel">
+      <div class="panel__header">
+        <div>
+          <span>Suas categorias</span>
+          <h2>Categorias cadastradas</h2>
+        </div>
+
+        <span class="category-count">
+          5 categorias
+        </span>
+      </div>
+
+      <div class="category-list">
+        <div class="category">
+          <div class="category__icon expense">
+            ↓
+          </div>
+
+          <div class="category__info">
+            <strong>Alimentação</strong>
+            <span>Despesa</span>
+          </div>
+
+          <span class="status active">
+            Ativa
+          </span>
+
+          <button class="category__action">
+            Editar
+          </button>
+        </div>
+
+        <div class="category">
+          <div class="category__icon expense">
+            ↓
+          </div>
+
+          <div class="category__info">
+            <strong>Assinaturas</strong>
+            <span>Despesa</span>
+          </div>
+
+          <span class="status active">
+            Ativa
+          </span>
+
+          <button class="category__action">
+            Editar
+          </button>
+        </div>
+
+        <div class="category">
+          <div class="category__icon expense">
+            ↓
+          </div>
+
+          <div class="category__info">
+            <strong>Transporte</strong>
+            <span>Despesa</span>
+          </div>
+
+          <span class="status active">
+            Ativa
+          </span>
+
+          <button class="category__action">
+            Editar
+          </button>
+        </div>
+
+        <div class="category">
+          <div class="category__icon income">
+            ↑
+          </div>
+
+          <div class="category__info">
+            <strong>Salário</strong>
+            <span>Receita</span>
+          </div>
+
+          <span class="status active">
+            Ativa
+          </span>
+
+          <button class="category__action">
+            Editar
+          </button>
+        </div>
+
+        <div class="category">
+          <div class="category__icon income">
+            ↑
+          </div>
+
+          <div class="category__info">
+            <strong>Freelance</strong>
+            <span>Receita</span>
+          </div>
+
+          <span class="status inactive">
+            Inativa
+          </span>
+
+          <button class="category__action">
+            Editar
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  @if (showForm) {
+    <div class="modal-backdrop" (click)="closeForm()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal__header">
+          <div>
+            <span>Categoria</span>
+            <h2>Nova categoria</h2>
+          </div>
+
+          <button
+            type="button"
+            class="modal__close"
+            (click)="closeForm()"
+          >
+            ×
+          </button>
+        </div>
+
+        <form class="form">
+          <div class="form-group">
+            <label for="name">
+              Nome
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Ex: Alimentação"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="type">
+              Tipo
+            </label>
+
+            <select id="type">
+              <option value="Expense">
+                Despesa
+              </option>
+
+              <option value="Income">
+                Receita
+              </option>
+            </select>
+          </div>
+
+          <div class="form__actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="closeForm()"
+            >
+              Cancelar
+            </button>
+
+            <button
+              type="button"
+              class="btn-save"
+              (click)="closeForm()"
+            >
+              Salvar categoria
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
