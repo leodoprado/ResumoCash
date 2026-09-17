@@ -1,0 +1,160 @@
+<div class="dashboard">
+  <header class="topbar">
+    <div class="topbar__content">
+      <a routerLink="/" class="topbar__brand" title="Voltar para a tela inicial">
+        <img src="/resumocash.svg" alt="ResumoCash" />
+      </a>
+
+      <div class="topbar__actions">
+        <a routerLink="/categories" class="topbar__link"> Categorias </a>
+
+        <a routerLink="/transactions" class="topbar__link"> Transações </a>
+
+        <a routerLink="/profile" class="profile"> L </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="welcome">
+      <div>
+        <span class="welcome__eyebrow"> Visão geral </span>
+
+        <h1>Olá, Leonardo 👋</h1>
+
+        <p>Aqui está um resumo da sua vida financeira.</p>
+      </div>
+
+      <a routerLink="/transactions" class="new-transaction">
+        <span>+</span>
+        Nova transação
+      </a>
+    </section>
+
+    <section class="summary">
+      <article class="summary-card summary-card--balance">
+        <div class="summary-card__header">
+          <span>Saldo atual</span>
+
+          <div class="summary-card__icon">$</div>
+        </div>
+
+        <strong>R$ 8.450,00</strong>
+
+        <small>Saldo disponível</small>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-card__header">
+          <span>Receitas</span>
+
+          <div class="summary-card__icon income">↑</div>
+        </div>
+
+        <strong class="positive"> R$ 5.800,00 </strong>
+
+        <small>Este mês</small>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-card__header">
+          <span>Despesas</span>
+
+          <div class="summary-card__icon expense">↓</div>
+        </div>
+
+        <strong class="negative"> R$ 2.340,00 </strong>
+
+        <small>Este mês</small>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="panel transactions">
+        <div class="panel__header">
+          <div>
+            <span>Movimentações</span>
+            <h2>Últimas transações</h2>
+          </div>
+
+          <a routerLink="/transactions"> Ver todas </a>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon">🛒</div>
+
+          <div class="transaction__info">
+            <strong>Supermercado</strong>
+            <span>Alimentação · Hoje</span>
+          </div>
+
+          <strong class="transaction__value negative"> - R$ 240,90 </strong>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon">💼</div>
+
+          <div class="transaction__info">
+            <strong>Salário</strong>
+            <span>Receita · 05/09</span>
+          </div>
+
+          <strong class="transaction__value positive"> + R$ 4.500,00 </strong>
+        </div>
+
+        <div class="transaction">
+          <div class="transaction__icon">🎬</div>
+
+          <div class="transaction__info">
+            <strong>Streaming</strong>
+            <span>Assinaturas · 10/09</span>
+          </div>
+
+          <strong class="transaction__value negative"> - R$ 55,90 </strong>
+        </div>
+      </div>
+
+      <aside class="panel shortcuts">
+        <div class="panel__header">
+          <div>
+            <span>Acesso rápido</span>
+            <h2>Atalhos</h2>
+          </div>
+        </div>
+
+        <a routerLink="/transactions" class="shortcut">
+          <div class="shortcut__icon">+</div>
+
+          <div>
+            <strong>Nova transação</strong>
+            <span>Registrar receita ou despesa</span>
+          </div>
+
+          <span class="shortcut__arrow"> → </span>
+        </a>
+
+        <a routerLink="/categories" class="shortcut">
+          <div class="shortcut__icon">#</div>
+
+          <div>
+            <strong>Categorias</strong>
+            <span>Organizar suas categorias</span>
+          </div>
+
+          <span class="shortcut__arrow"> → </span>
+        </a>
+
+        <a routerLink="/profile" class="shortcut">
+          <div class="shortcut__icon">◉</div>
+
+          <div>
+            <strong>Meu perfil</strong>
+            <span>Gerenciar sua conta</span>
+          </div>
+
+          <span class="shortcut__arrow"> → </span>
+        </a>
+      </aside>
+    </section>
+  </main>
+</div>
