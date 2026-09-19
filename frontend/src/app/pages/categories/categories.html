@@ -6,17 +6,11 @@
       </a>
 
       <div class="topbar__actions">
-        <a routerLink="/dashboard" class="topbar__link">
-          Dashboard
-        </a>
+        <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
 
-        <a routerLink="/transactions" class="topbar__link">
-          Transações
-        </a>
+        <a routerLink="/transactions" class="topbar__link"> Transações </a>
 
-        <a routerLink="/profile" class="profile">
-          L
-        </a>
+        <a routerLink="/profile" class="profile"> L </a>
       </div>
     </div>
   </header>
@@ -24,22 +18,14 @@
   <main class="content">
     <section class="page-header">
       <div>
-        <span class="page-header__eyebrow">
-          Organização
-        </span>
+        <span class="page-header__eyebrow"> Organização </span>
 
         <h1>Categorias</h1>
 
-        <p>
-          Organize suas receitas e despesas em categorias.
-        </p>
+        <p>Organize suas receitas e despesas em categorias.</p>
       </div>
 
-      <button
-        type="button"
-        class="new-category"
-        (click)="openForm()"
-      >
+      <button type="button" class="new-category" (click)="openForm()">
         <span>+</span>
         Nova categoria
       </button>
@@ -53,105 +39,47 @@
         </div>
 
         <span class="category-count">
-          5 categorias
+          {{ categories().length }}
+          {{ categories().length === 1 ? 'categoria' : 'categorias' }}
         </span>
       </div>
 
       <div class="category-list">
-        <div class="category">
-          <div class="category__icon expense">
-            ↓
+        @for (category of categories(); track category.id) {
+          <div class="category">
+            <div
+              class="category__icon"
+              [class.expense]="category.type === 'Expense'"
+              [class.income]="category.type === 'Income'"
+            >
+              @if (category.type === 'Expense') {
+                ↓
+              } @else {
+                ↑
+              }
+            </div>
+
+            <div class="category__info">
+              <strong>
+                {{ category.name }}
+              </strong>
+
+              <span>
+                {{ category.type === 'Expense' ? 'Despesa' : 'Receita' }}
+              </span>
+            </div>
+
+            <span
+              class="status"
+              [class.active]="category.status === 'Active'"
+              [class.inactive]="category.status === 'Inactive'"
+            >
+              {{ category.status === 'Active' ? 'Ativa' : 'Inativa' }}
+            </span>
+
+            <button type="button" class="category__action">Editar</button>
           </div>
-
-          <div class="category__info">
-            <strong>Alimentação</strong>
-            <span>Despesa</span>
-          </div>
-
-          <span class="status active">
-            Ativa
-          </span>
-
-          <button class="category__action">
-            Editar
-          </button>
-        </div>
-
-        <div class="category">
-          <div class="category__icon expense">
-            ↓
-          </div>
-
-          <div class="category__info">
-            <strong>Assinaturas</strong>
-            <span>Despesa</span>
-          </div>
-
-          <span class="status active">
-            Ativa
-          </span>
-
-          <button class="category__action">
-            Editar
-          </button>
-        </div>
-
-        <div class="category">
-          <div class="category__icon expense">
-            ↓
-          </div>
-
-          <div class="category__info">
-            <strong>Transporte</strong>
-            <span>Despesa</span>
-          </div>
-
-          <span class="status active">
-            Ativa
-          </span>
-
-          <button class="category__action">
-            Editar
-          </button>
-        </div>
-
-        <div class="category">
-          <div class="category__icon income">
-            ↑
-          </div>
-
-          <div class="category__info">
-            <strong>Salário</strong>
-            <span>Receita</span>
-          </div>
-
-          <span class="status active">
-            Ativa
-          </span>
-
-          <button class="category__action">
-            Editar
-          </button>
-        </div>
-
-        <div class="category">
-          <div class="category__icon income">
-            ↑
-          </div>
-
-          <div class="category__info">
-            <strong>Freelance</strong>
-            <span>Receita</span>
-          </div>
-
-          <span class="status inactive">
-            Inativa
-          </span>
-
-          <button class="category__action">
-            Editar
-          </button>
-        </div>
+        }
       </div>
     </section>
   </main>
@@ -165,60 +93,30 @@
             <h2>Nova categoria</h2>
           </div>
 
-          <button
-            type="button"
-            class="modal__close"
-            (click)="closeForm()"
-          >
-            ×
-          </button>
+          <button type="button" class="modal__close" (click)="closeForm()">×</button>
         </div>
 
         <form class="form">
           <div class="form-group">
-            <label for="name">
-              Nome
-            </label>
+            <label for="name"> Nome </label>
 
-            <input
-              id="name"
-              type="text"
-              placeholder="Ex: Alimentação"
-            />
+            <input id="name" type="text" placeholder="Ex: Alimentação" />
           </div>
 
           <div class="form-group">
-            <label for="type">
-              Tipo
-            </label>
+            <label for="type"> Tipo </label>
 
             <select id="type">
-              <option value="Expense">
-                Despesa
-              </option>
+              <option value="Expense">Despesa</option>
 
-              <option value="Income">
-                Receita
-              </option>
+              <option value="Income">Receita</option>
             </select>
           </div>
 
           <div class="form__actions">
-            <button
-              type="button"
-              class="btn-cancel"
-              (click)="closeForm()"
-            >
-              Cancelar
-            </button>
+            <button type="button" class="btn-cancel" (click)="closeForm()">Cancelar</button>
 
-            <button
-              type="button"
-              class="btn-save"
-              (click)="closeForm()"
-            >
-              Salvar categoria
-            </button>
+            <button type="button" class="btn-save" (click)="closeForm()">Salvar categoria</button>
           </div>
         </form>
       </div>
