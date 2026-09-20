@@ -32,94 +32,69 @@
     </section>
 
     <section class="panel">
-      <div class="panel__header">
-        <div>
-          <span>Suas categorias</span>
-          <h2>Categorias cadastradas</h2>
+      @if (isLoading()) {
+        <div class="loader-container">
+          <div class="loader"></div>
+
+          <span>Carregando...</span>
+        </div>
+      } @else {
+        <div class="panel__header">
+          <div>
+            <span>Suas categorias</span>
+            <h2>Categorias cadastradas</h2>
+          </div>
+
+          <span class="category-count">
+            {{ categories().length }}
+            {{ categories().length === 1 ? 'categoria' : 'categorias' }}
+          </span>
         </div>
 
-        <span class="category-count">
-          {{ categories().length }}
-          {{ categories().length === 1 ? 'categoria' : 'categorias' }}
-        </span>
-      </div>
+        <div class="category-list">
+          @for (category of categories(); track category.id) {
+            <div class="category">
+              <div
+                class="category__icon"
+                [class.expense]="category.type === 'Expense'"
+                [class.income]="category.type === 'Income'"
+              >
+                @if (category.type === 'Expense') {
+                  ↓
+                } @else {
+                  ↑
+                }
+              </div>
 
-      <div class="category-list">
-        @for (category of categories(); track category.id) {
-          <div class="category">
-            <div
-              class="category__icon"
-              [class.expense]="category.type === 'Expense'"
-              [class.income]="category.type === 'Income'"
-            >
-              @if (category.type === 'Expense') {
-                ↓
-              } @else {
-                ↑
-              }
-            </div>
+              <div class="category__info">
+                <strong>
+                  {{ category.name }}
+                </strong>
 
-            <div class="category__info">
-              <strong>
-                {{ category.name }}
-              </strong>
+                <span>
+                  {{ category.type === 'Expense' ? 'Despesa' : 'Receita' }}
+                </span>
+              </div>
 
-              <span>
-                {{ category.type === 'Expense' ? 'Despesa' : 'Receita' }}
+              <span
+                class="status"
+                [class.active]="category.status === 'Active'"
+                [class.inactive]="category.status === 'Inactive'"
+              >
+                {{ category.status === 'Active' ? 'Ativa' : 'Inativa' }}
               </span>
+
+              <button type="button" class="category__action">Editar</button>
             </div>
-
-            <span
-              class="status"
-              [class.active]="category.status === 'Active'"
-              [class.inactive]="category.status === 'Inactive'"
-            >
-              {{ category.status === 'Active' ? 'Ativa' : 'Inativa' }}
-            </span>
-
-            <button type="button" class="category__action">Editar</button>
-          </div>
-        }
-      </div>
+          } @empty {
+            <div class="empty-state">Nenhuma categoria cadastrada.</div>
+          }
+        </div>
+      }
     </section>
   </main>
 
   @if (showForm) {
-    <div class="modal-backdrop" (click)="closeForm()">
-      <div class="modal" (click)="$event.stopPropagation()">
-        <div class="modal__header">
-          <div>
-            <span>Categoria</span>
-            <h2>Nova categoria</h2>
-          </div>
-
-          <button type="button" class="modal__close" (click)="closeForm()">×</button>
-        </div>
-
-        <form class="form">
-          <div class="form-group">
-            <label for="name"> Nome </label>
-
-            <input id="name" type="text" placeholder="Ex: Alimentação" />
-          </div>
-
-          <div class="form-group">
-            <label for="type"> Tipo </label>
-
-            <select id="type">
-              <option value="Expense">Despesa</option>
-
-              <option value="Income">Receita</option>
-            </select>
-          </div>
-
-          <div class="form__actions">
-            <button type="button" class="btn-cancel" (click)="closeForm()">Cancelar</button>
-
-            <button type="button" class="btn-save" (click)="closeForm()">Salvar categoria</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <app-category-modal (close)="closeForm()" (save)="createCategory($event)" />
   }
 </div>
