@@ -1,4 +1,5 @@
 using ResumoCash.Application.Categories.Create;
+using ResumoCash.Application.Categories.Delete;
 using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Application.Categories.Update;
@@ -15,6 +16,17 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         new System.Text.Json.Serialization.JsonStringEnumConverter());
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,6 +40,7 @@ builder.Services.AddScoped<CreateCategoryService>();
 builder.Services.AddScoped<GetCategoryByIdService>();
 builder.Services.AddScoped<GetCategoriesService>();
 builder.Services.AddScoped<UpdateCategoryService>();
+builder.Services.AddScoped<DeleteCategoryService>();
 
 var app = builder.Build();
 
@@ -38,6 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("frontend");
 
 // Mapeia as rotas dos Controllers
 app.MapControllers();

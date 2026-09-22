@@ -56,6 +56,11 @@ public class CategoryRepository : ICategoryRepository
             .ToListAsync(cancellationToken);
     }
 
+    public void Delete(Category category)
+    {
+        _context.Categories.Remove(category);
+    }
+
     public async Task SaveChangesAsync(
         CancellationToken cancellationToken = default)
     {
