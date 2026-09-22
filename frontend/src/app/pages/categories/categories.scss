@@ -302,8 +302,21 @@
   background: rgba(148, 163, 184, 0.08);
 }
 
+.category__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .category__action {
-  padding: 8px 12px;
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
 
   background: transparent;
   color: #94a3b8;
@@ -311,21 +324,34 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
 
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-
   cursor: pointer;
 
   transition:
     color 0.2s ease,
-    background 0.2s ease;
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.category__action svg {
+  width: 16px;
+  height: 16px;
 }
 
 .category__action:hover {
   color: #f8fafc;
-
   background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.category__action--danger {
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.18);
+}
+
+.category__action--danger:hover {
+  color: #fda4af;
+  background: rgba(251, 113, 133, 0.08);
+  border-color: rgba(251, 113, 133, 0.3);
 }
 
 /* Modal */
@@ -471,6 +497,23 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.category__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category__action--danger {
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.18);
+}
+
+.category__action--danger:hover {
+  color: #fda4af;
+  background: rgba(251, 113, 133, 0.08);
+  border-color: rgba(251, 113, 133, 0.3);
+}
+
 .btn-save {
   background: #22c55e;
   color: #07130c;
@@ -538,5 +581,14 @@
 
   .status {
     display: none;
+  }
+
+  .category__actions {
+    gap: 6px;
+  }
+
+  .category__action {
+    padding: 7px 9px;
+    font-size: 11px;
   }
 }

@@ -50,4 +50,10 @@ export class CategoryService {
       request
     );
   }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`
+    );
+  }
 }

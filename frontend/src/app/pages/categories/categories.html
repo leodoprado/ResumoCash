@@ -84,7 +84,27 @@
                 {{ category.status === 'Active' ? 'Ativa' : 'Inativa' }}
               </span>
 
-              <button type="button" class="category__action">Editar</button>
+              <div class="category__actions">
+                <button
+                  type="button"
+                  class="category__action"
+                  title="Editar categoria"
+                  aria-label="Editar categoria"
+                  (click)="openEditForm(category)"
+                >
+                  <svg lucidePencil></svg>
+                </button>
+
+                <button
+                  type="button"
+                  class="category__action category__action--danger"
+                  title="Excluir categoria"
+                  aria-label="Excluir categoria"
+                  (click)="deleteCategory(category)"
+                >
+                  <svg lucideTrash2></svg>
+                </button>
+              </div>
             </div>
           } @empty {
             <div class="empty-state">Nenhuma categoria cadastrada.</div>
@@ -95,6 +115,11 @@
   </main>
 
   @if (showForm) {
-    <app-category-modal (close)="closeForm()" (save)="createCategory($event)" />
+    <app-category-modal
+      [category]="selectedCategory"
+      (close)="closeForm()"
+      (create)="createCategory($event)"
+      (update)="updateCategory($event)"
+    />
   }
 </div>
