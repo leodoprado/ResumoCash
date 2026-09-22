@@ -4,7 +4,7 @@ import { finalize } from 'rxjs';
 
 import {
   LucidePencil,
-  LucideTrash
+  LucideTrash,
 } from '@lucide/angular';
 
 import { CategoryService } from '../../services/category.service';
@@ -16,10 +16,17 @@ import {
 } from '../../models/category.model';
 
 import { CategoryModal } from '../../components/category-modal/category-modal';
+import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-categories',
-  imports: [RouterLink, CategoryModal, LucidePencil, LucideTrash],
+  imports: [
+    RouterLink,
+    CategoryModal,
+    ConfirmDialog,
+    LucidePencil,
+    LucideTrash,
+  ],
   templateUrl: './categories.html',
   styleUrl: './categories.scss',
 })
@@ -29,6 +36,8 @@ export class Categories implements OnInit {
   selectedCategory: Category | null = null;
 
   categories = signal<Category[]>([]);
+  categoryToDelete = signal<Category | null>(null);
+
   isLoading = signal(true);
 
   constructor(private readonly categoryService: CategoryService) {}
@@ -76,27 +85,38 @@ export class Categories implements OnInit {
       return;
     }
 
-    this.categoryService.update(this.selectedCategory.id, request).subscribe({
-      next: () => {
-        this.closeForm();
-        this.loadCategories();
-      },
+    this.categoryService
+      .update(this.selectedCategory.id, request)
+      .subscribe({
+        next: () => {
+          this.closeForm();
+          this.loadCategories();
+        },
 
-      error: (error) => {
-        console.error('Erro ao atualizar categoria:', error);
-      },
-    });
+        error: (error) => {
+          console.error('Erro ao atualizar categoria:', error);
+        },
+      });
   }
 
-  deleteCategory(category: Category): void {
-    const confirmed = window.confirm(`Deseja realmente excluir a categoria "${category.name}"?`);
+  requestDelete(category: Category): void {
+    this.categoryToDelete.set(category);
+  }
 
-    if (!confirmed) {
+  cancelDelete(): void {
+    this.categoryToDelete.set(null);
+  }
+
+  confirmDelete(): void {
+    const category = this.categoryToDelete();
+
+    if (!category) {
       return;
     }
 
     this.categoryService.delete(category.id).subscribe({
       next: () => {
+        this.categoryToDelete.set(null);
         this.loadCategories();
       },
 

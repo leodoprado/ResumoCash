@@ -1,0 +1,40 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal__header">
+      <div>
+        <span>Confirmação</span>
+        <h2>{{ title() }}</h2>
+      </div>
+
+      <button
+        type="button"
+        class="modal__close"
+        (click)="cancelled.emit()"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="confirm-content">
+      <p>{{ message() }}</p>
+    </div>
+
+    <div class="confirm-actions">
+      <button
+        type="button"
+        class="btn-cancel"
+        (click)="cancelled.emit()"
+      >
+        {{ cancelText() }}
+      </button>
+
+      <button
+        type="button"
+        class="btn-delete"
+        (click)="confirmed.emit()"
+      >
+        {{ confirmText() }}
+      </button>
+    </div>
+  </div>
+</div>

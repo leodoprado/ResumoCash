@@ -100,7 +100,7 @@
                   class="category__action category__action--danger"
                   title="Excluir categoria"
                   aria-label="Excluir categoria"
-                  (click)="deleteCategory(category)"
+                  (click)="requestDelete(category)"
                 >
                   <svg lucideTrash2></svg>
                 </button>
@@ -120,6 +120,26 @@
       (close)="closeForm()"
       (create)="createCategory($event)"
       (update)="updateCategory($event)"
+    />
+  }
+
+  @if (showForm) {
+    <app-category-modal
+      [category]="selectedCategory"
+      (close)="closeForm()"
+      (create)="createCategory($event)"
+      (update)="updateCategory($event)"
+    />
+  }
+
+  @if (categoryToDelete(); as category) {
+    <app-confirm-dialog
+      title="Excluir categoria"
+      [message]="'Deseja realmente excluir a categoria &quot;' + category.name + '&quot;?'"
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (confirmed)="confirmDelete()"
+      (cancelled)="cancelDelete()"
     />
   }
 </div>
