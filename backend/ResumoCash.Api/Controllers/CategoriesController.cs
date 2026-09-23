@@ -32,7 +32,8 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
+    public async Task<IActionResult> Create(
+        [FromBody] CreateCategoryRequest request)
     {
         var userId = Guid.Parse(
             "11111111-1111-1111-1111-111111111111"

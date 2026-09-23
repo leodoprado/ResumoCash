@@ -18,7 +18,7 @@ public class GetCategoryByIdService
         Guid userId,
         Guid categoryId)
     {
-        var category = await _categoryRepository.GetByIdAsync(categoryId);
+        var category = await _categoryRepository.GetByIdAsync(userId, categoryId);
 
         if (category is null)
           return null;

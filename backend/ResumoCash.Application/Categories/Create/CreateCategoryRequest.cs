@@ -7,5 +7,5 @@ namespace ResumoCash.Application.Categories.Create;
 
 public record CreateCategoryRequest(
     string Name,
-    TransactionType Type
+    CategoryType Type
 );

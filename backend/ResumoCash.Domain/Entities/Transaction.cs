@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ResumoCash.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -33,7 +34,8 @@ public class Transaction
         Amount = amount;
         CompetenceMonth = new DateOnly(competenceMonth.Year, competenceMonth.Month, 1);
         DueDate = dueDate;
-        IsCompleted = false;
+        ProcessStatus = TransactionProcessStatus.Pending;
+        Status = TransactionStatus.Active;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -44,7 +46,8 @@ public class Transaction
     public decimal Amount { get; private set; }
     public DateOnly CompetenceMonth { get; private set; }
     public DateOnly? DueDate { get; private set; }
-    public bool IsCompleted { get; private set; }
+    public TransactionProcessStatus ProcessStatus { get; private set; }
+    public TransactionStatus Status { get; private set; }
     public DateTime? CompletedAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
@@ -57,6 +60,22 @@ public class Transaction
             throw new ArgumentException("A descrição é obrigatória.");
 
         Description = description;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AtualizarCategoria(Guid categoryId)
+    {
+        CategoryId = categoryId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AtualizarCompetencia(DateOnly competenceMonth)
+    {
+        CompetenceMonth = new DateOnly(
+            competenceMonth.Year,
+            competenceMonth.Month,
+            1);
+
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -75,16 +94,28 @@ public class Transaction
         UpdatedAt = DateTime.UtcNow;
     }
 
+    public void Ativar()
+    {
+        Status = TransactionStatus.Active;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Inativar()
+    {
+        Status = TransactionStatus.Inactive;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void Concluir()
     {
-        IsCompleted = true;
+        ProcessStatus = TransactionProcessStatus.Completed;
         CompletedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
     public void Reabrir()
     {
-        IsCompleted = false;
+        ProcessStatus = TransactionProcessStatus.Pending;
         CompletedAt = null;
         UpdatedAt = DateTime.UtcNow;
     }

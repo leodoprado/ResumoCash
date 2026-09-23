@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ResumoCash.Infrastructure\ResumoCash.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="bin\" />
+  </ItemGroup>
+
 </Project>

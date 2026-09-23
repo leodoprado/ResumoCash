@@ -3,7 +3,7 @@ namespace ResumoCash.Domain.Entities;
 
 public class Category
 {
-    public Category(Guid userId, string name, TransactionType type)
+    public Category(Guid userId, string name, CategoryType type)
     {
         if (userId == Guid.Empty)
             throw new ArgumentException("O usuário é obrigatório.");
@@ -21,7 +21,7 @@ public class Category
 
     public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
-    public TransactionType Type { get; private set; }
+    public CategoryType Type { get; private set; }
     public string Name { get; private set; }
     public CategoryStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -29,7 +29,7 @@ public class Category
     public User User { get; private set; } = null!;
     public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
 
-    public void Atualizar(string name, TransactionType type, CategoryStatus status)
+    public void Atualizar(string name, CategoryType type, CategoryStatus status)
     {
         Name = name;
         Type = type;
@@ -37,7 +37,7 @@ public class Category
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Desativar()
+    public void Inativar()
     {
         Status = CategoryStatus.Inactive;
         UpdatedAt = DateTime.UtcNow;

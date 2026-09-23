@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ResumoCash.Domain.Entities;
+using ResumoCash.Domain.Enums;
 using ResumoCash.Domain.Repositories;
 using ResumoCash.Infrastructure.Persistence;
 
@@ -31,17 +32,21 @@ public class CategoryRepository : ICategoryRepository
         return await _context.Categories
             .AnyAsync(
                 x => x.UserId == userId &&
-                     x.Name == name,
-                cancellationToken);
+                x.Name == name,
+                cancellationToken
+             );
     }
 
     public async Task<Category?> GetByIdAsync(
+        Guid userId,
         Guid id,
         CancellationToken cancellationToken = default)
     {
         return await _context.Categories
             .FirstOrDefaultAsync(
-                x => x.Id == id,
+                x => x.Id == id && 
+                x.UserId == userId &&
+                x.Status == CategoryStatus.Active,
                 cancellationToken);
     }
 
@@ -51,14 +56,11 @@ public class CategoryRepository : ICategoryRepository
     {
         return await _context.Categories
             .AsNoTracking()
-            .Where(x => x.UserId == userId)
+            .Where(
+                x => x.UserId == userId &&
+                x.Status == CategoryStatus.Active)
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
-    }
-
-    public void Delete(Category category)
-    {
-        _context.Categories.Remove(category);
     }
 
     public async Task SaveChangesAsync(

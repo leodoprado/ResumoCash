@@ -18,6 +18,7 @@ public class UpdateCategoryService
         CancellationToken cancellationToken = default)
     {
         var category = await _categoryRepository.GetByIdAsync(
+            userId,
             categoryId,
             cancellationToken
         );

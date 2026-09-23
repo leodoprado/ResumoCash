@@ -18,6 +18,7 @@ public class DeleteCategoryService
         CancellationToken cancellationToken = default)
     {
         var category = await _categoryRepository.GetByIdAsync(
+            userId,
             categoryId,
             cancellationToken
         );
@@ -29,7 +30,7 @@ public class DeleteCategoryService
             );
         }
 
-        _categoryRepository.Delete(category);
+        category.Inativar();
 
         await _categoryRepository.SaveChangesAsync(
             cancellationToken

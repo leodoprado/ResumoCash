@@ -8,6 +8,6 @@ namespace ResumoCash.Application.Categories.GetAll;
 public record GetCategoriesResponse(
     Guid Id,
     string Name,
-    TransactionType Type,
+    CategoryType Type,
     CategoryStatus Status
 );

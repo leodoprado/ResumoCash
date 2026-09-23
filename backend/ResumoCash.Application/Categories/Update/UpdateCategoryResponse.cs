@@ -8,6 +8,6 @@ namespace ResumoCash.Application.Categories.Update;
 public record UpdateCategoryResponse(
     Guid Id,
     string Name,
-    TransactionType Type,
+    CategoryType Type,
     CategoryStatus Status
 );

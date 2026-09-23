@@ -7,6 +7,6 @@ namespace ResumoCash.Application.Categories.Update;
 
 public record UpdateCategoryRequest(
     string Name,
-    TransactionType Type,
+    CategoryType Type,
     CategoryStatus Status
 );

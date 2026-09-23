@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ResumoCash.Domain.Enums;
 
-public enum TransactionType
+public enum CategoryType
 {
-    Income = 1,
-    Expense = 2 
+    Income,
+    Expense 
 }

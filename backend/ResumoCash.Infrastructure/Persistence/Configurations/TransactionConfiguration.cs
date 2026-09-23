@@ -41,8 +41,16 @@ public class TransactionConfiguration
         builder.Property(x => x.DueDate)
             .HasColumnName("due_date");
 
-        builder.Property(x => x.IsCompleted)
-            .HasColumnName("is_completed")
+        builder.Property(x => x.ProcessStatus)
+            .HasColumnName("process_status")
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
+        builder.Property(x => x.Status)
+            .HasColumnName("status")
+            .HasConversion<string>()
+            .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(x => x.CompletedAt)

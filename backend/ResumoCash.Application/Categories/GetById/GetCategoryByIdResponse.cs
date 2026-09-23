@@ -8,7 +8,7 @@ namespace ResumoCash.Application.Categories.GetById;
 public record GetCategoryByIdResponse(
     Guid Id,
     string Name,
-    TransactionType Type,
+    CategoryType Type,
     CategoryStatus Status,
     DateTime CreatedAt
 );
