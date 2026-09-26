@@ -255,8 +255,17 @@
   font-weight: 600;
 }
 
+.form-hint {
+  color: #64748b;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
 .password-panel,
-.account-panel {
+.account-panel,
+.preferences-panel {
   grid-column: 1 / -1;
 }
 

@@ -24,6 +24,7 @@ public class GetTransactionsService
                 transaction.Id,
                 transaction.CategoryId,
                 transaction.Category.Name,
+                transaction.Category.Type,
                 transaction.Description,
                 transaction.Amount,
                 transaction.CompetenceMonth,

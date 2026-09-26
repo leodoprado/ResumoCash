@@ -1,11 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 
-import {
-  LucidePencil,
-  LucideTrash,
-} from '@lucide/angular';
+import { LucidePencil, LucideTrash } from '@lucide/angular';
 
 import { CategoryService } from '../../services/category.service';
 
@@ -17,16 +14,11 @@ import {
 
 import { CategoryModal } from '../../components/category-modal/category-modal';
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
+import { Loading } from '../../components/loading/loading';
 
 @Component({
   selector: 'app-categories',
-  imports: [
-    RouterLink,
-    CategoryModal,
-    ConfirmDialog,
-    LucidePencil,
-    LucideTrash,
-  ],
+  imports: [RouterLink, CategoryModal, ConfirmDialog, LucidePencil, LucideTrash, Loading],
   templateUrl: './categories.html',
   styleUrl: './categories.scss',
 })
@@ -44,6 +36,20 @@ export class Categories implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+  }
+
+  statusFilter = signal<'Active' | 'Inactive'>('Active');
+
+  filteredCategories = computed(() => {
+    const filter = this.statusFilter();
+
+    return this.categories().filter((category) => category.status === filter);
+  });
+
+  changeStatusFilter(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+
+    this.statusFilter.set(select.value as 'Active' | 'Inactive');
   }
 
   loadCategories(): void {
@@ -85,18 +91,16 @@ export class Categories implements OnInit {
       return;
     }
 
-    this.categoryService
-      .update(this.selectedCategory.id, request)
-      .subscribe({
-        next: () => {
-          this.closeForm();
-          this.loadCategories();
-        },
+    this.categoryService.update(this.selectedCategory.id, request).subscribe({
+      next: () => {
+        this.closeForm();
+        this.loadCategories();
+      },
 
-        error: (error) => {
-          console.error('Erro ao atualizar categoria:', error);
-        },
-      });
+      error: (error) => {
+        console.error('Erro ao atualizar categoria:', error);
+      },
+    });
   }
 
   requestDelete(category: Category): void {

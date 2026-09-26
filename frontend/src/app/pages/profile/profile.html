@@ -7,11 +7,8 @@
 
       <div class="topbar__actions">
         <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
-
         <a routerLink="/categories" class="topbar__link"> Categorias </a>
-
         <a routerLink="/transactions" class="topbar__link"> Transações </a>
-
         <a routerLink="/profile" class="profile-avatar"> L </a>
       </div>
     </div>
@@ -34,7 +31,6 @@
 
         <div class="user-card__info">
           <h2>Leonardo</h2>
-
           <span>leonardo@email.com</span>
         </div>
 
@@ -68,37 +64,27 @@
         </form>
       </section>
 
-      <section class="panel password-panel">
+      <section class="panel preferences-panel">
         <div class="panel__header">
           <div>
-            <span>Segurança</span>
-            <h2>Alterar senha</h2>
+            <span>Preferências</span>
+            <h2>Período de referência</h2>
           </div>
         </div>
 
         <form class="form">
           <div class="form-group">
-            <label for="current-password"> Senha atual </label>
+            <label for="reference-year"> Ano de referência </label>
 
-            <input id="current-password" type="password" placeholder="Digite sua senha atual" />
-          </div>
+            <input id="reference-year" min="2000" max="2100" value="2026" />
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="new-password"> Nova senha </label>
-
-              <input id="new-password" type="password" placeholder="Nova senha" />
-            </div>
-
-            <div class="form-group">
-              <label for="confirm-password"> Confirmar senha </label>
-
-              <input id="confirm-password" type="password" placeholder="Confirme a nova senha" />
-            </div>
+            <small class="form-hint">
+              O ano de referência será utilizado no Dashboard e nas Transações.
+            </small>
           </div>
 
           <div class="form__actions">
-            <button type="button" class="btn-secondary">Alterar senha</button>
+            <button type="button" class="btn-save">Salvar preferência</button>
           </div>
         </form>
       </section>
@@ -114,11 +100,13 @@
         <div class="account-info">
           <div class="account-info__item">
             <span>Status</span>
+
             <strong class="account-status"> Ativa </strong>
           </div>
 
           <div class="account-info__item">
             <span>Membro desde</span>
+
             <strong> Setembro de 2026 </strong>
           </div>
         </div>

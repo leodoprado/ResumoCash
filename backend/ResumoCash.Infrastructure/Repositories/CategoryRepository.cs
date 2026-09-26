@@ -45,8 +45,7 @@ public class CategoryRepository : ICategoryRepository
         return await _context.Categories
             .FirstOrDefaultAsync(
                 x => x.Id == id && 
-                x.UserId == userId &&
-                x.Status == CategoryStatus.Active,
+                x.UserId == userId,
                 cancellationToken);
     }
 
@@ -57,8 +56,7 @@ public class CategoryRepository : ICategoryRepository
         return await _context.Categories
             .AsNoTracking()
             .Where(
-                x => x.UserId == userId &&
-                x.Status == CategoryStatus.Active)
+                x => x.UserId == userId)
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
     }

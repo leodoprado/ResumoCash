@@ -33,11 +33,7 @@
 
     <section class="panel">
       @if (isLoading()) {
-        <div class="loader-container">
-          <div class="loader"></div>
-
-          <span>Carregando...</span>
-        </div>
+        <app-loading />
       } @else {
         <div class="panel__header">
           <div>
@@ -45,14 +41,26 @@
             <h2>Categorias cadastradas</h2>
           </div>
 
-          <span class="category-count">
-            {{ categories().length }}
-            {{ categories().length === 1 ? 'categoria' : 'categorias' }}
-          </span>
+          <div class="category-filters">
+            <select
+              class="category-filter"
+              [value]="statusFilter()"
+              (change)="changeStatusFilter($event)"
+            >
+              <option value="Active">Ativas</option>
+              <option value="Inactive">Inativas</option>
+            </select>
+
+            <span class="category-count">
+              {{ filteredCategories().length }}
+
+              {{ filteredCategories().length === 1 ? 'categoria' : 'categorias' }}
+            </span>
+          </div>
         </div>
 
         <div class="category-list">
-          @for (category of categories(); track category.id) {
+          @for (category of filteredCategories(); track category.id) {
             <div class="category">
               <div
                 class="category__icon"

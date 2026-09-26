@@ -6,6 +6,89 @@
   color: #f8fafc;
 }
 
+.reference-month {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding-left: 20px;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reference-month__label {
+  color: #64748b;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.reference-month__select {
+  min-width: 150px;
+
+  padding: 9px 34px 9px 12px;
+
+  background: #111c2f;
+  color: #cbd5e1;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.reference-month__select:hover {
+  background: #152136;
+
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.reference-month__select:focus {
+  border-color: rgba(34, 197, 94, 0.65);
+
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.08);
+}
+
+.reference-month__select option {
+  background: #111c2f;
+  color: #f8fafc;
+}
+
+@media (max-width: 850px) {
+  .reference-month__label {
+    display: none;
+  }
+
+  .reference-month {
+    padding-left: 12px;
+  }
+
+  .reference-month__select {
+    min-width: 125px;
+  }
+}
+
+@media (max-width: 650px) {
+  .reference-month {
+    display: none;
+  }
+}
+
 .topbar {
   height: 72px;
 

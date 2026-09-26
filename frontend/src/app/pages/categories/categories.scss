@@ -260,6 +260,34 @@
   background: rgba(251, 113, 133, 0.1);
 }
 
+.category-filters {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.category-filter {
+  padding: 8px 12px;
+
+  background: #0f172a;
+  color: #cbd5e1;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+
+  outline: none;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.category-filter:focus {
+  border-color: rgba(34, 197, 94, 0.7);
+}
+
 .category__info {
   display: flex;
   flex-direction: column;

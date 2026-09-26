@@ -5,6 +5,29 @@
         <img src="/resumocash.svg" alt="ResumoCash" />
       </a>
 
+      <div class="reference-month">
+        <span class="reference-month__label"> Mês de Referência </span>
+
+        <select
+          class="reference-month__select"
+          [value]="referenceMonthService.referenceMonth()"
+          (change)="changeReferenceMonth($event)"
+        >
+          <option value="1">Janeiro</option>
+          <option value="2">Fevereiro</option>
+          <option value="3">Março</option>
+          <option value="4">Abril</option>
+          <option value="5">Maio</option>
+          <option value="6">Junho</option>
+          <option value="7">Julho</option>
+          <option value="8">Agosto</option>
+          <option value="9">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+      </div>
+
       <div class="topbar__actions">
         <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
 
@@ -31,105 +54,166 @@
       </button>
     </section>
 
-    <section class="summary">
-      <article class="summary-card">
-        <span>Receitas no mês</span>
+    <section class="panel">
+      @if (isLoading()) {
+        <app-loading />
+      } @else {
+        <div class="panel__header">
+          <div>
+            <span>Mês atual</span>
+            <h2>Transações a pagar</h2>
+          </div>
 
-        <strong class="positive"> R$ 5.800,00 </strong>
-      </article>
+          <span class="transaction-count">
+            {{ pendingTransactions().length }}
 
-      <article class="summary-card">
-        <span>Despesas no mês</span>
+            {{ pendingTransactions().length === 1 ? 'transação' : 'transações' }}
+          </span>
+        </div>
 
-        <strong class="negative"> R$ 2.340,00 </strong>
-      </article>
+        <div class="transaction-list">
+          @for (transaction of pendingTransactions(); track transaction.id) {
+            <div class="transaction">
+              <label
+                class="transaction__check"
+                [title]="
+                  transaction.categoryType === 'Expense'
+                    ? 'Marcar como paga'
+                    : 'Marcar como recebida'
+                "
+              >
+                <input
+                  type="checkbox"
+                  [checked]="false"
+                  (change)="completedTransaction(transaction)"
+                />
 
-      <article class="summary-card">
-        <span>Resultado</span>
+                <span class="transaction__checkbox"></span>
+              </label>
 
-        <strong> R$ 3.460,00 </strong>
-      </article>
+              <div
+                class="transaction__icon"
+                [class.Expense]="transaction.categoryType === 'Expense'"
+                [class.Income]="transaction.categoryType === 'Income'"
+              >
+                {{ transaction.categoryType === 'Expense' ? '↓' : '↑' }}
+              </div>
+
+              <div class="transaction__info">
+                <strong>
+                  {{ transaction.categoryName }}
+                </strong>
+
+                <span>
+                  Vencimento em:
+                  {{ transaction.dueDate | date: 'dd/MM/yyyy' }}
+                </span>
+              </div>
+
+              <strong class="transaction__value">
+                {{ transaction.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+              </strong>
+
+              <div class="transaction__actions">
+                <button
+                  type="button"
+                  class="transaction__action"
+                  (click)="openEditForm(transaction)"
+                >
+                  <svg lucidePencil></svg>
+                </button>
+
+                <button
+                  type="button"
+                  class="transaction__action transaction__action--danger"
+                  (click)="requestDelete(transaction)"
+                >
+                  <svg lucideTrash></svg>
+                </button>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-state">Nenhuma transação pendente neste mês.</div>
+          }
+        </div>
+      }
     </section>
 
-    <section class="panel">
+    <section class="panel panel--completed">
       <div class="panel__header">
         <div>
-          <span>Histórico</span>
-          <h2>Suas transações</h2>
+          <span>Mês atual</span>
+          <h2>Transações pagas</h2>
         </div>
 
-        <div class="filters">
-          <select>
-            <option>Setembro 2026</option>
-            <option>Agosto 2026</option>
-            <option>Julho 2026</option>
-          </select>
+        <span class="transaction-count">
+          {{ completedTransactions().length }}
 
-          <select>
-            <option>Todas</option>
-            <option>Receitas</option>
-            <option>Despesas</option>
-          </select>
-        </div>
+          {{ completedTransactions().length === 1 ? 'transação' : 'transações' }}
+        </span>
       </div>
 
       <div class="transaction-list">
-        <div class="transaction">
-          <div class="transaction__icon expense">↓</div>
+        @for (transaction of completedTransactions(); track transaction.id) {
+          <div class="transaction">
+            <label
+              class="transaction__check transaction__check--completed"
+              title="Reabrir transação"
+            >
+              <input type="checkbox" [checked]="true" (change)="reopenTransaction(transaction)" />
 
-          <div class="transaction__info">
-            <strong>Supermercado</strong>
-            <span>Alimentação · 16/09/2026</span>
+              <span class="transaction__checkbox"></span>
+            </label>
+
+            <div
+              class="transaction__icon"
+              [class.Expense]="transaction.categoryType === 'Expense'"
+              [class.Income]="transaction.categoryType === 'Income'"
+            >
+              {{ transaction.categoryType === 'Expense' ? '↓' : '↑' }}
+            </div>
+
+            <div class="transaction__info">
+              <strong>
+                {{ transaction.categoryName }}
+              </strong>
+
+              <span>
+                Pago em:
+                {{ transaction.completedAt | date: 'dd/MM/yyyy' }}
+              </span>
+            </div>
+
+            <strong class="transaction__value">
+              {{ transaction.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+            </strong>
           </div>
-
-          <strong class="transaction__value negative"> - R$ 240,90 </strong>
-
-          <button class="transaction__action">Editar</button>
-        </div>
-
-        <div class="transaction">
-          <div class="transaction__icon income">↑</div>
-
-          <div class="transaction__info">
-            <strong>Salário</strong>
-            <span>Salário · 05/09/2026</span>
-          </div>
-
-          <strong class="transaction__value positive"> + R$ 4.500,00 </strong>
-
-          <button class="transaction__action">Editar</button>
-        </div>
-
-        <div class="transaction">
-          <div class="transaction__icon expense">↓</div>
-
-          <div class="transaction__info">
-            <strong>Streaming</strong>
-            <span>Assinaturas · 10/09/2026</span>
-          </div>
-
-          <strong class="transaction__value negative"> - R$ 55,90 </strong>
-
-          <button class="transaction__action">Editar</button>
-        </div>
-
-        <div class="transaction">
-          <div class="transaction__icon income">↑</div>
-
-          <div class="transaction__info">
-            <strong>Projeto freelance</strong>
-            <span>Freelance · 12/09/2026</span>
-          </div>
-
-          <strong class="transaction__value positive"> + R$ 1.300,00 </strong>
-
-          <button class="transaction__action">Editar</button>
-        </div>
+        } @empty {
+          <div class="empty-state">Nenhuma transação paga neste mês.</div>
+        }
       </div>
     </section>
   </main>
 
   @if (showForm) {
-    <app-transaction-modal (close)="closeForm()" />
+    <app-transaction-modal
+      [transaction]="selectedTransaction"
+      (close)="closeForm()"
+      (create)="createTransaction($event)"
+      (update)="updateTransaction($event)"
+    />
+  }
+
+  @if (transactionToDelete(); as transaction) {
+    <app-confirm-dialog
+      title="Excluir transação"
+      [message]="
+        'Deseja realmente excluir a transação &quot;' + transaction.description + '&quot;?'
+      "
+      confirmText="Excluir"
+      cancelText="Cancelar"
+      (confirmed)="confirmDelete()"
+      (cancelled)="cancelDelete()"
+    />
   }
 </div>

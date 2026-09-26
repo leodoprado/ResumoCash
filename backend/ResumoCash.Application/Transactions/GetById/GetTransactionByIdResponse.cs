@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ResumoCash.Application.Transactions.GetAll;
+namespace ResumoCash.Application.Transactions.GetById;
 
-public record GetTransactionsResponse
+public record GetTransactionByIdResponse
 (
     Guid Id,
     Guid CategoryId,
     string CategoryName,
-    CategoryType CategoryType,
     string Description,
     decimal Amount,
     DateOnly CompetenceMonth,

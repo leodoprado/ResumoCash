@@ -1,4 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+
+import {
+  Transaction,
+  CreateTransactionRequest,
+  UpdateTransactionRequest
+} from '../../models/transaction.model';
 
 @Component({
   selector: 'app-transaction-modal',
@@ -7,9 +18,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './transaction-modal.scss'
 })
 export class TransactionModal {
-  @Output() close = new EventEmitter<void>();
 
-  closeModal() {
+  @Input()
+  transaction: Transaction | null = null;
+
+  @Output()
+  close = new EventEmitter<void>();
+
+  @Output()
+  create = new EventEmitter<CreateTransactionRequest>();
+
+  @Output()
+  update = new EventEmitter<UpdateTransactionRequest>();
+
+  closeModal(): void {
     this.close.emit();
   }
 }

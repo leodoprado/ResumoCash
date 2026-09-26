@@ -3,9 +3,12 @@ using ResumoCash.Application.Categories.Delete;
 using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Application.Categories.Update;
+using ResumoCash.Application.Transactions.Completed;
 using ResumoCash.Application.Transactions.Create;
 using ResumoCash.Application.Transactions.Delete;
 using ResumoCash.Application.Transactions.GetAll;
+using ResumoCash.Application.Transactions.GetById;
+using ResumoCash.Application.Transactions.Reopen;
 using ResumoCash.Application.Transactions.Update;
 using ResumoCash.Domain.Repositories;
 using ResumoCash.Infrastructure;
@@ -52,8 +55,11 @@ builder.Services.AddScoped<DeleteCategoryService>();
 // Transactions
 builder.Services.AddScoped<CreateTransactionService>();
 builder.Services.AddScoped<GetTransactionsService>();
+builder.Services.AddScoped<GetTransactionByIdService>();
 builder.Services.AddScoped<UpdateTransactionService>();
 builder.Services.AddScoped<DeleteTransactionService>();
+builder.Services.AddScoped<CompletedTransactionService>();
+builder.Services.AddScoped<ReopenTransactionService>();
 
 var app = builder.Build();
 
