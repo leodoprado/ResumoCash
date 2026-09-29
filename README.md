@@ -1,4 +1,4 @@
-<img width="2110" height="590" alt="ResumoCash" src="https://github.com/user-attachments/assets/e648f0d7-14c9-42cb-8d5a-0e00c7533e46" />
+<img width="1805" height="324" alt="Group 19" src="https://github.com/user-attachments/assets/dc05f8b4-4fe7-4da3-815c-b6f3e68fcd80" />
 
 ## Get Started (backend)
 ```
