@@ -54,131 +54,78 @@
       </button>
     </section>
 
-    <section class="summary">
-      <article class="summary-card summary-card--balance">
-        <div class="summary-card__header">
-          <span>Saldo atual</span>
+    @if (isLoading()) {
+      <app-loading />
+    } @else {
+      <section class="summary">
+        <article class="summary-card summary-card--balance">
+          <div class="summary-card__header">
+            <span>Resultado do mês</span>
 
-          <div class="summary-card__icon">$</div>
-        </div>
+            <div class="summary-card__icon">$</div>
+          </div>
 
-        <strong>R$ 8.450,00</strong>
+          <strong>
+            {{ monthBalance() | currency: 'BRL' : 'symbol' : '1.2-2' }}
+          </strong>
 
-        <small>Saldo disponível</small>
-      </article>
+          <small>Mês de referência</small>
+        </article>
 
-      <article class="summary-card">
-        <div class="summary-card__header">
-          <span>Receitas</span>
+        <article class="summary-card">
+          <div class="summary-card__header">
+            <span>Receitas</span>
 
-          <div class="summary-card__icon income">↑</div>
-        </div>
+            <div class="summary-card__icon income">↑</div>
+          </div>
 
-        <strong class="positive"> R$ 5.800,00 </strong>
+          <strong class="positive">
+            {{ totalIncome() | currency: 'BRL' : 'symbol' : '1.2-2' }}
+          </strong>
 
-        <small>Este mês</small>
-      </article>
+          <small>Mês de referência</small>
+        </article>
 
-      <article class="summary-card">
-        <div class="summary-card__header">
-          <span>Despesas</span>
+        <article class="summary-card">
+          <div class="summary-card__header">
+            <span>Despesas</span>
 
-          <div class="summary-card__icon expense">↓</div>
-        </div>
+            <div class="summary-card__icon expense">↓</div>
+          </div>
 
-        <strong class="negative"> R$ 2.340,00 </strong>
+          <strong class="negative">
+            {{ totalExpense() | currency: 'BRL' : 'symbol' : '1.2-2' }}
+          </strong>
 
-        <small>Este mês</small>
-      </article>
-    </section>
+          <small>Mês de referência</small>
+        </article>
+      </section>
 
-    <section class="dashboard-grid">
-      <div class="panel transactions">
-        <div class="panel__header">
+      <section class="financial-chart">
+        <div class="financial-chart__header">
           <div>
-            <span>Movimentações</span>
-            <h2>Últimas transações</h2>
+            <span>Visão anual</span>
+
+            <h2 class="financial-chart__title">
+              <span class="legend-dot legend-dot--income"></span>
+
+              Receitas <span class="financial-chart__separator">×</span> Despesas
+
+              <span class="legend-dot legend-dot--expense"></span>
+            </h2>
           </div>
 
-          <a routerLink="/transactions"> Ver todas </a>
+          <span class="financial-chart__year">
+            {{ referenceMonthService.referenceYear() }}
+          </span>
         </div>
 
-        <div class="transaction">
-          <div class="transaction__icon">🛒</div>
-
-          <div class="transaction__info">
-            <strong>Supermercado</strong>
-            <span>Alimentação · Hoje</span>
-          </div>
-
-          <strong class="transaction__value negative"> - R$ 240,90 </strong>
+        <div class="financial-chart__content">
+          <canvas baseChart [data]="monthlyChartData()" [options]="monthlyChartOptions" type="bar">
+          </canvas>
         </div>
-
-        <div class="transaction">
-          <div class="transaction__icon">💼</div>
-
-          <div class="transaction__info">
-            <strong>Salário</strong>
-            <span>Receita · 05/09</span>
-          </div>
-
-          <strong class="transaction__value positive"> + R$ 4.500,00 </strong>
-        </div>
-
-        <div class="transaction">
-          <div class="transaction__icon">🎬</div>
-
-          <div class="transaction__info">
-            <strong>Streaming</strong>
-            <span>Assinaturas · 10/09</span>
-          </div>
-
-          <strong class="transaction__value negative"> - R$ 55,90 </strong>
-        </div>
-      </div>
-
-      <aside class="panel shortcuts">
-        <div class="panel__header">
-          <div>
-            <span>Acesso rápido</span>
-            <h2>Atalhos</h2>
-          </div>
-        </div>
-
-        <a routerLink="/transactions" class="shortcut">
-          <div class="shortcut__icon">+</div>
-
-          <div>
-            <strong>Nova transação</strong>
-            <span>Registrar receita ou despesa</span>
-          </div>
-
-          <span class="shortcut__arrow"> → </span>
-        </a>
-
-        <a routerLink="/categories" class="shortcut">
-          <div class="shortcut__icon">#</div>
-
-          <div>
-            <strong>Categorias</strong>
-            <span>Organizar suas categorias</span>
-          </div>
-
-          <span class="shortcut__arrow"> → </span>
-        </a>
-
-        <a routerLink="/profile" class="shortcut">
-          <div class="shortcut__icon">◉</div>
-
-          <div>
-            <strong>Meu perfil</strong>
-            <span>Gerenciar sua conta</span>
-          </div>
-
-          <span class="shortcut__arrow"> → </span>
-        </a>
-      </aside>
-    </section>
+      </section>
+    }
   </main>
 
   @if (showTransactionForm) {

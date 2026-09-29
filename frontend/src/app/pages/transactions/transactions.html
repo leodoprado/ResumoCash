@@ -29,7 +29,7 @@
       </div>
 
       <div class="topbar__actions">
-        <a routerLink="/dashboard" class="topbar__link"> Dashboard </a>
+        <a routerLink="/dashboard" class="topbar__link"> Resumo </a>
 
         <a routerLink="/categories" class="topbar__link"> Categorias </a>
 
@@ -140,58 +140,62 @@
     </section>
 
     <section class="panel panel--completed">
-      <div class="panel__header">
-        <div>
-          <span>Mês atual</span>
-          <h2>Transações pagas</h2>
+      @if (isLoading()) {
+        <app-loading />
+      } @else {
+        <div class="panel__header">
+          <div>
+            <span>Mês atual</span>
+            <h2>Transações pagas</h2>
+          </div>
+
+          <span class="transaction-count">
+            {{ completedTransactions().length }}
+
+            {{ completedTransactions().length === 1 ? 'transação' : 'transações' }}
+          </span>
         </div>
 
-        <span class="transaction-count">
-          {{ completedTransactions().length }}
+        <div class="transaction-list">
+          @for (transaction of completedTransactions(); track transaction.id) {
+            <div class="transaction">
+              <label
+                class="transaction__check transaction__check--completed"
+                title="Reabrir transação"
+              >
+                <input type="checkbox" [checked]="true" (change)="reopenTransaction(transaction)" />
 
-          {{ completedTransactions().length === 1 ? 'transação' : 'transações' }}
-        </span>
-      </div>
+                <span class="transaction__checkbox"></span>
+              </label>
 
-      <div class="transaction-list">
-        @for (transaction of completedTransactions(); track transaction.id) {
-          <div class="transaction">
-            <label
-              class="transaction__check transaction__check--completed"
-              title="Reabrir transação"
-            >
-              <input type="checkbox" [checked]="true" (change)="reopenTransaction(transaction)" />
+              <div
+                class="transaction__icon"
+                [class.Expense]="transaction.categoryType === 'Expense'"
+                [class.Income]="transaction.categoryType === 'Income'"
+              >
+                {{ transaction.categoryType === 'Expense' ? '↓' : '↑' }}
+              </div>
 
-              <span class="transaction__checkbox"></span>
-            </label>
+              <div class="transaction__info">
+                <strong>
+                  {{ transaction.categoryName }}
+                </strong>
 
-            <div
-              class="transaction__icon"
-              [class.Expense]="transaction.categoryType === 'Expense'"
-              [class.Income]="transaction.categoryType === 'Income'"
-            >
-              {{ transaction.categoryType === 'Expense' ? '↓' : '↑' }}
-            </div>
+                <span>
+                  Pago em:
+                  {{ transaction.completedAt | date: 'dd/MM/yyyy' }}
+                </span>
+              </div>
 
-            <div class="transaction__info">
-              <strong>
-                {{ transaction.categoryName }}
+              <strong class="transaction__value">
+                {{ transaction.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
               </strong>
-
-              <span>
-                Pago em:
-                {{ transaction.completedAt | date: 'dd/MM/yyyy' }}
-              </span>
             </div>
-
-            <strong class="transaction__value">
-              {{ transaction.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
-            </strong>
-          </div>
-        } @empty {
-          <div class="empty-state">Nenhuma transação paga neste mês.</div>
-        }
-      </div>
+          } @empty {
+            <div class="empty-state">Nenhuma transação paga neste mês.</div>
+          }
+        </div>
+      }
     </section>
   </main>
 

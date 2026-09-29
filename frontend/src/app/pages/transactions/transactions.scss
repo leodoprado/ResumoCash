@@ -9,12 +9,8 @@
 .reference-month {
   display: flex;
   align-items: center;
-
   gap: 8px;
-
   padding-left: 20px;
-
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .reference-month__label {
@@ -609,8 +605,6 @@
   color: #94a3b8;
 
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-
   cursor: pointer;
 
   transition:
