@@ -12,7 +12,7 @@ public class Transaction
         Guid userId, 
         string description, 
         decimal amount, 
-        DateOnly competenceMonth, 
+        Guid competenceId, 
         DateOnly? dueDate)
     {
         if (categoryId == Guid.Empty)
@@ -20,6 +20,9 @@ public class Transaction
 
         if (userId == Guid.Empty)
             throw new ArgumentException("O usuário é obrigatório.");
+
+        if (competenceId == Guid.Empty)
+            throw new ArgumentException("A competência é obrigatória.");
 
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("A descrição é obrigatória.");
@@ -32,7 +35,7 @@ public class Transaction
         CategoryId = categoryId;
         Description = description;
         Amount = amount;
-        CompetenceMonth = new DateOnly(competenceMonth.Year, competenceMonth.Month, 1);
+        CompetenceId = competenceId;
         DueDate = dueDate;
         ProcessStatus = TransactionProcessStatus.Pending;
         Status = TransactionStatus.Active;
@@ -44,7 +47,7 @@ public class Transaction
     public Guid CategoryId { get; private set; }
     public string Description { get; private set; }
     public decimal Amount { get; private set; }
-    public DateOnly CompetenceMonth { get; private set; }
+    public Guid CompetenceId { get; private set; }
     public DateOnly? DueDate { get; private set; }
     public TransactionProcessStatus ProcessStatus { get; private set; }
     public TransactionStatus Status { get; private set; }
@@ -53,6 +56,7 @@ public class Transaction
     public DateTime? UpdatedAt { get; private set; }
     public User User { get; private set; } = null!;
     public Category Category { get; private set; } = null!;
+    public Competence Competence { get; private set; } = null!;
 
     public void AtualizarDescricao(string description)
     {
@@ -69,13 +73,12 @@ public class Transaction
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AtualizarCompetencia(DateOnly competenceMonth)
+    public void AtualizarCompetencia(Guid competenceId)
     {
-        CompetenceMonth = new DateOnly(
-            competenceMonth.Year,
-            competenceMonth.Month,
-            1);
+        if (competenceId == Guid.Empty)
+            throw new ArgumentException("A competência é obrigatória.");
 
+        CompetenceId = competenceId;
         UpdatedAt = DateTime.UtcNow;
     }
 

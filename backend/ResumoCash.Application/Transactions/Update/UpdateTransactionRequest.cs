@@ -7,8 +7,8 @@ namespace ResumoCash.Application.Transactions.Update;
 public record UpdateTransactionRequest
 (
     Guid CategoryId,
+    Guid CompetenceId,
     string Description,
     decimal Amount,
-    DateOnly CompetenceMonth,
     DateOnly? DueDate
 );

@@ -9,9 +9,9 @@ public record UpdateTransactionResponse
 (
     Guid Id,
     Guid CategoryId,
+    Guid CompetenceId,
     string Description,
     decimal Amount,
-    DateOnly CompetenceMonth,
     DateOnly? DueDate,
     TransactionProcessStatus ProcessStatus,
     TransactionStatus Status,

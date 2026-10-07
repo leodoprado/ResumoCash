@@ -43,6 +43,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // Dependências
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICompetenceRepository, CompetenceRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 // Categories

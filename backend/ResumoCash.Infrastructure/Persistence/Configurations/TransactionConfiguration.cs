@@ -24,6 +24,10 @@ public class TransactionConfiguration
             .HasColumnName("category_id")
             .IsRequired();
 
+        builder.Property(x => x.CompetenceId)
+            .HasColumnName("competence_id")
+            .IsRequired();
+
         builder.Property(x => x.Description)
             .HasColumnName("description")
             .HasMaxLength(200)
@@ -32,10 +36,6 @@ public class TransactionConfiguration
         builder.Property(x => x.Amount)
             .HasColumnName("amount")
             .HasPrecision(18, 2)
-            .IsRequired();
-
-        builder.Property(x => x.CompetenceMonth)
-            .HasColumnName("competence_month")
             .IsRequired();
 
         builder.Property(x => x.DueDate)
@@ -85,11 +85,27 @@ public class TransactionConfiguration
             })
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Muito útil para consultas mensais
+        // Transaction pertence a uma Competence
+        // e a Competence deve pertencer ao mesmo User.
+        builder.HasOne(x => x.Competence)
+            .WithMany(x => x.Transactions)
+            .HasForeignKey(x => new
+            {
+                x.UserId,
+                x.CompetenceId
+            })
+            .HasPrincipalKey(x => new
+            {
+                x.UserId,
+                x.Id
+            })
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Consultas de transações por competência
         builder.HasIndex(x => new
         {
             x.UserId,
-            x.CompetenceMonth
+            x.CompetenceId
         });
     }
 }

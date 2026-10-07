@@ -7,8 +7,8 @@ namespace ResumoCash.Application.Transactions.Create;
 public record CreateTransactionRequest
 (
     Guid CategoryId,
+    Guid CompetenceId,
     string Description,
     decimal Amount,
-    DateOnly CompetenceMonth,
     DateOnly? DueDate
 );

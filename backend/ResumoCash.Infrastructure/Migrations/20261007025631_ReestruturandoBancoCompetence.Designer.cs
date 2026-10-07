@@ -12,8 +12,8 @@ using ResumoCash.Infrastructure.Persistence;
 namespace ResumoCash.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260912185736_UpdateCategoryStatusAndUniqueName")]
-    partial class UpdateCategoryStatusAndUniqueName
+    [Migration("20261007025631_ReestruturandoBancoCompetence")]
+    partial class ReestruturandoBancoCompetence
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,8 +48,10 @@ namespace ResumoCash.Infrastructure.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("status");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer")
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("type");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -63,6 +65,47 @@ namespace ResumoCash.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("categories", (string)null);
+                });
+
+            modelBuilder.Entity("ResumoCash.Domain.Entities.Competence", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("ClosedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("closed_at");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateOnly>("Month")
+                        .HasColumnType("date")
+                        .HasColumnName("month");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Month")
+                        .IsUnique();
+
+                    b.ToTable("competences", (string)null);
                 });
 
             modelBuilder.Entity("ResumoCash.Domain.Entities.Transaction", b =>
@@ -81,9 +124,9 @@ namespace ResumoCash.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
 
-                    b.Property<DateOnly>("CompetenceMonth")
-                        .HasColumnType("date")
-                        .HasColumnName("competence_month");
+                    b.Property<Guid>("CompetenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("competence_id");
 
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("timestamp with time zone")
@@ -103,9 +146,17 @@ namespace ResumoCash.Infrastructure.Migrations
                         .HasColumnType("date")
                         .HasColumnName("due_date");
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_completed");
+                    b.Property<string>("ProcessStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("process_status");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("status");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -119,7 +170,7 @@ namespace ResumoCash.Infrastructure.Migrations
 
                     b.HasIndex("UserId", "CategoryId");
 
-                    b.HasIndex("UserId", "CompetenceMonth");
+                    b.HasIndex("UserId", "CompetenceId");
 
                     b.ToTable("transactions", (string)null);
                 });
@@ -180,6 +231,17 @@ namespace ResumoCash.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ResumoCash.Domain.Entities.Competence", b =>
+                {
+                    b.HasOne("ResumoCash.Domain.Entities.User", "User")
+                        .WithMany("Competences")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ResumoCash.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("ResumoCash.Domain.Entities.User", "User")
@@ -195,7 +257,16 @@ namespace ResumoCash.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("ResumoCash.Domain.Entities.Competence", "Competence")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId", "CompetenceId")
+                        .HasPrincipalKey("UserId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Competence");
 
                     b.Navigation("User");
                 });
@@ -205,9 +276,16 @@ namespace ResumoCash.Infrastructure.Migrations
                     b.Navigation("Transactions");
                 });
 
+            modelBuilder.Entity("ResumoCash.Domain.Entities.Competence", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
             modelBuilder.Entity("ResumoCash.Domain.Entities.User", b =>
                 {
                     b.Navigation("Categories");
+
+                    b.Navigation("Competences");
 
                     b.Navigation("Transactions");
                 });

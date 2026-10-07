@@ -35,4 +35,5 @@ public class User
     public DateTime? UpdatedAt { get; private set; }
     public ICollection<Category> Categories { get; private set; } = new List<Category>();
     public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
+    public ICollection<Competence> Competences { get; private set; } = new List<Competence>();
 }

@@ -9,11 +9,11 @@ public record GetTransactionsResponse
 (
     Guid Id,
     Guid CategoryId,
+    Guid CompetenceId,
     string CategoryName,
     CategoryType CategoryType,
     string Description,
     decimal Amount,
-    DateOnly CompetenceMonth,
     DateOnly? DueDate,
     TransactionProcessStatus ProcessStatus,
     TransactionStatus Status,

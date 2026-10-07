@@ -36,7 +36,7 @@ public class UpdateTransactionService
         transaction.AtualizarCategoria(request.CategoryId);
         transaction.AtualizarDescricao(description);
         transaction.AtualizarValor(request.Amount);
-        transaction.AtualizarCompetencia(request.CompetenceMonth);
+        transaction.AtualizarCompetencia(request.CompetenceId);
         transaction.AtualizarVencimento(request.DueDate);
 
         await _transactionRepository.SaveChangesAsync(cancellationToken);
@@ -44,9 +44,9 @@ public class UpdateTransactionService
         return new UpdateTransactionResponse(
             transaction.Id,
             transaction.CategoryId,
+            transaction.CompetenceId,
             transaction.Description,
             transaction.Amount,
-            transaction.CompetenceMonth,
             transaction.DueDate,
             transaction.ProcessStatus,
             transaction.Status,

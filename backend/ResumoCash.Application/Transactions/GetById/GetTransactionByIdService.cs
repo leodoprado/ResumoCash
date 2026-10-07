@@ -30,10 +30,10 @@ public class GetTransactionByIdService
         return new GetTransactionByIdResponse(
             transaction.Id,
             transaction.CategoryId,
+            transaction.CompetenceId,
             transaction.Category.Name,
             transaction.Description,
             transaction.Amount,
-            transaction.CompetenceMonth,
             transaction.DueDate,
             transaction.ProcessStatus,
             transaction.Status,

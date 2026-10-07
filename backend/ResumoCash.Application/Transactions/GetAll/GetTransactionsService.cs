@@ -23,11 +23,11 @@ public class GetTransactionsService
             (
                 transaction.Id,
                 transaction.CategoryId,
+                transaction.CompetenceId,
                 transaction.Category.Name,
                 transaction.Category.Type,
                 transaction.Description,
                 transaction.Amount,
-                transaction.CompetenceMonth,
                 transaction.DueDate,
                 transaction.ProcessStatus,
                 transaction.Status,
