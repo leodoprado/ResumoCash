@@ -12,8 +12,8 @@ using ResumoCash.Infrastructure.Persistence;
 namespace ResumoCash.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261007025631_ReestruturandoBancoCompetence")]
-    partial class ReestruturandoBancoCompetence
+    [Migration("20261007030140_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

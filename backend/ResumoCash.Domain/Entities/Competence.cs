@@ -11,7 +11,7 @@ public class Competence
     {
         Id = Guid.NewGuid();
         UserId = userId;
-        Month = month;
+        Month = new DateOnly(month.Year, month.Month, 1);
         Status = CompetenceStatus.Open;
         CreatedAt = DateTime.UtcNow;
     }

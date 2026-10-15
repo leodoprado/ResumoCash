@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { finalize } from 'rxjs';
 
-import { LucidePencil, LucideTrash } from '@lucide/angular';
+import { LucideLock, LucidePencil, LucideTrash } from '@lucide/angular';
 
 import { Loading } from '../../components/loading/loading';
 
@@ -27,6 +27,7 @@ import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
     ConfirmDialog,
     LucidePencil,
     LucideTrash,
+    LucideLock,
     CurrencyPipe,
     DatePipe,
     Loading,
@@ -38,6 +39,21 @@ export class Transactions implements OnInit {
   showForm = false;
 
   selectedTransaction: Transaction | null = null;
+
+  showCloseCompetenceDialog = signal(false);
+
+  requestCloseCompetence(): void {
+    this.showCloseCompetenceDialog.set(true);
+  }
+
+  cancelCloseCompetence(): void {
+    this.showCloseCompetenceDialog.set(false);
+  }
+
+  confirmCloseCompetence(): void {
+    // Futuramente, chamar o CompetenceService.
+    this.showCloseCompetenceDialog.set(false);
+  }
 
   transactions = signal<Transaction[]>([]);
   transactionToDelete = signal<Transaction | null>(null);

@@ -9,6 +9,9 @@ import { Loading } from '../../components/loading/loading';
 import { ReferenceMonthService } from '../../services/reference-month.service';
 import { TransactionService } from '../../services/transaction.service';
 
+import { LucideLock } from '@lucide/angular';
+import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
+
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 
@@ -16,7 +19,15 @@ import { Transaction } from '../../models/transaction.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, TransactionModal, CurrencyPipe, Loading, BaseChartDirective],
+  imports: [
+    RouterLink,
+    TransactionModal,
+    CurrencyPipe,
+    Loading,
+    BaseChartDirective,
+    LucideLock,
+    ConfirmDialog,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -25,6 +36,23 @@ export class Dashboard implements OnInit {
 
   transactions = signal<Transaction[]>([]);
   isLoading = signal(true);
+
+  showCloseCompetenceDialog = signal(false);
+
+  requestCloseCompetence(): void {
+    this.showCloseCompetenceDialog.set(true);
+  }
+
+  cancelCloseCompetence(): void {
+    this.showCloseCompetenceDialog.set(false);
+  }
+
+  confirmCloseCompetence(): void {
+    // Aqui será realizada a chamada à API
+    // para fechar a competência selecionada.
+
+    this.showCloseCompetenceDialog.set(false);
+  }
 
   referenceMonthTransactions = computed(() =>
     this.transactions().filter((transaction) => {

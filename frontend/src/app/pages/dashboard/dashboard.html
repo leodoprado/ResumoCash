@@ -6,7 +6,7 @@
       </a>
 
       <div class="reference-month">
-        <span class="reference-month__label"> Mês de Referência </span>
+        <span class="reference-month__label"> Mês de Competência </span>
 
         <select
           class="reference-month__select"
@@ -26,6 +26,16 @@
           <option value="11">Novembro</option>
           <option value="12">Dezembro</option>
         </select>
+
+        <button
+          type="button"
+          class="reference-month__close"
+          title="Fechar competência selecionada"
+          aria-label="Fechar competência selecionada"
+          (click)="requestCloseCompetence()"
+        >
+          <svg lucideLock></svg>
+        </button>
       </div>
 
       <div class="topbar__actions">
@@ -130,5 +140,16 @@
 
   @if (showTransactionForm) {
     <app-transaction-modal (close)="closeTransactionForm()" />
+  }
+
+  @if (showCloseCompetenceDialog()) {
+    <app-confirm-dialog
+      title="Fechar competência"
+      message="Deseja realmente fechar a competência selecionada? Após o fechamento, suas movimentações não poderão ser alteradas."
+      confirmText="Fechar competência"
+      cancelText="Cancelar"
+      (confirmed)="confirmCloseCompetence()"
+      (cancelled)="cancelCloseCompetence()"
+    />
   }
 </div>
