@@ -1,29 +1,29 @@
 <img width="1805" height="324" alt="Group 19" src="https://github.com/user-attachments/assets/dc05f8b4-4fe7-4da3-815c-b6f3e68fcd80" />
 
-## Arquitetura do Backend
+# Arquitetura da Aplicação
 
-<img width="2790" height="2064" alt="mermaid-diagram(1)" src="https://github.com/user-attachments/assets/97066d0b-031f-457a-b20a-30d572651451" />
+Para o desenvolvimento da aplicação, foi adotada a Clean Architecture (Arquitetura Limpa), uma abordagem de organização de software que busca separar as responsabilidades do sistema em diferentes camadas, promovendo baixo acoplamento, alta coesão, facilidade de manutenção, testabilidade e escalabilidade.
 
-O backend do **ResumoCash** utiliza os princípios da **Clean Architecture**, organizando as responsabilidades em quatro camadas independentes, com o objetivo de garantir separação de responsabilidades, baixo acoplamento, testabilidade e facilidade de manutenção.
+A solução está organizada em quatro projetos principais:
+- ResumoCash.Api
+- ResumoCash.Application
+- ResumoCash.Domain
+- ResumoCash.Infrastructure
 
-| Camada | Responsabilidade |
-|---|---|
-| **ResumoCash.Api** | Exposição de endpoints REST, recebimento de requisições HTTP, autenticação, autorização e retorno das respostas. |
-| **ResumoCash.Application** | Orquestração dos casos de uso, validações de aplicação, comunicação com os contratos dos repositórios e definição de DTOs. |
-| **ResumoCash.Domain** | Entidades, regras de negócio, invariantes, enums e contratos dos repositórios. Não depende das demais camadas. |
-| **ResumoCash.Infrastructure** | Implementação de persistência utilizando Entity Framework Core, PostgreSQL, repositórios, mapeamentos e migrations. |
+## ResumoCash.Api
 
-#### Fluxo de execução
+Responsável pela camada de apresentação e comunicação externa da aplicação. Sua principal função é disponibilizar os endpoints HTTP que permitem interação entre o cliente e o sistema, recebendo requisições, encaminhando-as para a camada de aplicação e retornando as respostas apropriadas. Essa camada deve evitar a implementação direta de regras de negócio, delegando essas responsabilidades para as camadas apropriadas.
 
-1. O cliente realiza uma requisição HTTP para um endpoint.
-2. A camada **Api** recebe a requisição e encaminha a operação para a **Application**.
-3. A **Application** coordena o caso de uso, consultando repositórios e utilizando entidades do **Domain**.
-4. O **Domain** protege as regras de negócio e garante a consistência das entidades.
-5. A **Infrastructure** implementa os contratos de persistência e interage com o PostgreSQL.
-6. O resultado retorna à camada **Api**, responsável por enviar a resposta HTTP ao cliente.
+## ResumoCash.Application
 
-#### Princípio de dependência
+Responsável pela implementação e orquestração dos casos de uso da aplicação. Essa camada estabelece como as funcionalidades do sistema devem ser executadas, coordenando as entidades de domínio e utilizando abstrações para acessar recursos externos, como bancos de dados e serviços. Essa camada depende do Domain, mas não deve depender diretamente da insfraestrutura ou das tecnologias de persistência.
 
-As dependências de código seguem em direção às camadas internas. A camada **Domain** não depende de frameworks, infraestrutura ou mecanismos de apresentação.
+## ResumoCash.Domain
 
-A implementação dos repositórios ocorre na **Infrastructure**, enquanto seus contratos são definidos no **Domain**, respeitando o princípio de inversão de dependência (DIP).
+Representa o núcleo da aplicação, concentrando as entidades e regras de negócio fundamentais do sistema. Essa camada deve ser independente das demais, garantindo que a lógica de negócio não fique vinculada a frameworks, banco de dados ou mecanismos de comunicação externos. Por ser a camada mais interna da arquitetura, o Domain não deve possuir dependências dos demais projetos da solução.
+
+## ResumoCash.Infrastructure
+
+Responsável pela implementação dos recursos técnicos e mecanismos de acesso a serviços externos utilizados pela aplicação. Essa camada fornece as implementações concretas das abstrações definidas nas camadas internas, permitindo que os casos de uso sejam executados sem conhecer os detalhes técnicos envolvidos. Dessa forma, a camada de infraestrutura pode ser modificada ou substituída com impacto reduzido sobre as regras de negócio e os casos de uso.
+
+<img width="1536" height="1024" alt="Untitled" src="https://github.com/user-attachments/assets/80eaeaba-cc29-4d46-b916-bd17270ba094" />
