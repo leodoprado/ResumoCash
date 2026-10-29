@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { finalize } from 'rxjs';
 
-import { LucideLock, LucidePencil, LucideTrash } from '@lucide/angular';
+import { LucidePencil, LucideTrash } from '@lucide/angular';
 
 import { Loading } from '../../components/loading/loading';
 
@@ -27,7 +27,6 @@ import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
     ConfirmDialog,
     LucidePencil,
     LucideTrash,
-    LucideLock,
     CurrencyPipe,
     DatePipe,
     Loading,

@@ -11,6 +11,7 @@
         <select
           class="reference-month__select"
           [value]="referenceMonthService.referenceMonth()"
+          [disabled]="showCloseCompetenceDialog() || isClosingCompetence()"
           (change)="changeReferenceMonth($event)"
         >
           <option value="1">Janeiro</option>
@@ -27,11 +28,24 @@
           <option value="12">Dezembro</option>
         </select>
 
+        @if (selectedCompetence(); as competence) {
+          <span
+            class="competence-status"
+            [class.competence-status--open]="competence.status === 'Open'"
+            [class.competence-status--closed]="competence.status === 'Closed'"
+          >
+            <span class="competence-status__dot"></span>
+
+            {{ competence.status === 'Open' ? 'Aberta' : 'Encerrada' }}
+          </span>
+        }
+
         <button
           type="button"
           class="reference-month__close"
           title="Fechar competência selecionada"
           aria-label="Fechar competência selecionada"
+          [disabled]="!canCloseCompetence()"
           (click)="requestCloseCompetence()"
         >
           <svg lucideLock></svg>
@@ -139,7 +153,13 @@
   </main>
 
   @if (showTransactionForm) {
-    <app-transaction-modal (close)="closeTransactionForm()" />
+    @if (selectedCompetence(); as competence) {
+      <app-transaction-modal
+        [competenceId]="competence.id"
+        (create)="createTransaction($event)"
+        (close)="closeTransactionForm()"
+      />
+    }
   }
 
   @if (showCloseCompetenceDialog()) {
@@ -151,5 +171,33 @@
       (confirmed)="confirmCloseCompetence()"
       (cancelled)="cancelCloseCompetence()"
     />
+  }
+
+  @if (showCompetenceWarning()) {
+    <div class="competence-warning-overlay" (click)="closeCompetenceWarning()">
+      <div
+        class="competence-warning-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="competence-warning-title"
+        aria-describedby="competence-warning-description"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="competence-warning-modal__icon">
+          <svg lucideLock></svg>
+        </div>
+
+        <h2 id="competence-warning-title">Competência encerrada</h2>
+
+        <p id="competence-warning-description">
+          Não é possível adicionar novas transações nesta competência, pois o período financeiro já
+          foi encerrado.
+        </p>
+
+        <p>Selecione uma competência aberta para continuar.</p>
+
+        <button type="button" (click)="closeCompetenceWarning()">Entendi</button>
+      </div>
+    </div>
   }
 </div>

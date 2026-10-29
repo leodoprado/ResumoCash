@@ -17,8 +17,8 @@ export interface CreateTransactionRequest {
   categoryId: string;
   description: string;
   amount: number;
-  competenceMonth: string;
-  dueDate: string;
+  competenceId: string;
+  dueDate: string | null;
 }
 
 export interface UpdateTransactionRequest {

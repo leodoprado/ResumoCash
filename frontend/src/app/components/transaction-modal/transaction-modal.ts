@@ -30,6 +30,10 @@ export class TransactionModal implements OnInit, OnChanges {
   @Input()
   transaction: Transaction | null = null;
 
+  
+  @Input()
+  competenceId: string = '';
+
   @Output()
   close = new EventEmitter<void>();
 
@@ -64,7 +68,6 @@ export class TransactionModal implements OnInit, OnChanges {
       this.description = '';
       this.amount = 0;
       this.dueDate = '';
-
       return;
     }
 
@@ -94,18 +97,39 @@ export class TransactionModal implements OnInit, OnChanges {
     const description = this.description.trim();
 
     if (!this.categoryId || !description || this.amount <= 0) {
+      console.error('Formulário inválido.');
+      return;
+    }
+
+    if (this.transaction) {
+      const request: UpdateTransactionRequest = {
+        categoryId: this.categoryId,
+        description,
+        amount: this.amount,
+        competenceMonth: this.transaction.competenceMonth,
+        dueDate: this.dueDate,
+        processStatus: this.transaction.processStatus,
+        status: this.transaction.status,
+      };
+
+      this.update.emit(request);
+      return;
+    }
+
+    if (!this.competenceId) {
+      console.error('Competência não informada.');
       return;
     }
 
     const request: CreateTransactionRequest = {
       categoryId: this.categoryId,
+      competenceId: this.competenceId,
       description,
       amount: this.amount,
-      competenceMonth: this.dueDate
-        ? `${this.dueDate.substring(0, 7)}-01`
-        : `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-01`,
-      dueDate: this.dueDate,
+      dueDate: this.dueDate || null,
     };
+
+    console.log('CRIANDO TRANSAÇÃO:', request);
 
     this.create.emit(request);
   }
