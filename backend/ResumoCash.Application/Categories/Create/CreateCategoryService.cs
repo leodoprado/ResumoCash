@@ -1,8 +1,9 @@
-﻿using ResumoCash.Domain.Entities;
-using ResumoCash.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
+using ResumoCash.Domain.Entities;
+using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Categories.Create;
 
@@ -19,17 +20,14 @@ public class CreateCategoryService
         Guid userId,
         CreateCategoryRequest request)
     {
-        var name = request.Name.Trim();
+        var category = new Category(userId,
+                                    request.Name,
+                                    request.Type);
 
-        var exists = await _categoryRepository.ExistsByNameAsync(userId, request.Name);
+        var existNameCategory = await _categoryRepository.ExistsByNameAsync(userId, request.Name);
 
-        if (exists)
+        if (existNameCategory)
             throw new InvalidOperationException("Já existe uma categoria com esse nome.");
-
-        var category = new Category(
-            userId,
-            name,
-            request.Type);
 
         await _categoryRepository.AddAsync(category);
         await _categoryRepository.SaveChangesAsync();

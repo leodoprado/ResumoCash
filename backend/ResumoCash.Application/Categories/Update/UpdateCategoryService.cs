@@ -1,4 +1,4 @@
-﻿using ResumoCash.Domain.Repositories;
+using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Categories.Update;
 
@@ -32,7 +32,7 @@ public class UpdateCategoryService
 
         var name = request.Name.Trim();
 
-        category.Atualizar(
+        category.Update(
             name,
             request.Type,
             request.Status

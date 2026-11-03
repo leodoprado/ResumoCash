@@ -1,4 +1,4 @@
-﻿using ResumoCash.Domain.Repositories;
+using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Categories.Delete;
 
@@ -30,7 +30,7 @@ public class DeleteCategoryService
             );
         }
 
-        category.Inativar();
+        category.Deactivate();
 
         await _categoryRepository.SaveChangesAsync(
             cancellationToken

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Application.Categories.Create;
 using ResumoCash.Application.Categories.Delete;
 using ResumoCash.Application.Categories.GetAll;
@@ -18,7 +18,7 @@ public class CategoriesController : ControllerBase
     private readonly DeleteCategoryService _deleteCategoryService;
 
     public CategoriesController(
-        CreateCategoryService createCategoryService, 
+        CreateCategoryService createCategoryService,
         GetCategoryByIdService getCategoryByIdService,
         GetCategoriesService getCategoriesService,
         UpdateCategoryService updateCategoryService,
@@ -35,9 +35,7 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> Create(
         [FromBody] CreateCategoryRequest request)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
         var result = await _createCategoryService.ExecuteAsync(userId, request);
 
@@ -47,22 +45,19 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+
         var categories = await _getCategoriesService.ExecuteAsync(userId);
+
         return Ok(categories);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var category = await _getCategoryByIdService
-            .ExecuteAsync(userId, id);
+        var category = await _getCategoryByIdService.ExecuteAsync(userId, id);
 
         if (category is null)
             return NotFound();
@@ -71,31 +66,21 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(
-        Guid id,
-        UpdateCategoryRequest request)
+    public async Task<IActionResult> Update(Guid id, UpdateCategoryRequest request)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
         var result = await _updateCategoryService.ExecuteAsync(userId, id, request);
-            
+
         return Ok(result);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        await _deleteCategoryService.ExecuteAsync(
-            userId,
-            id,
-            cancellationToken
-        );
+        await _deleteCategoryService.ExecuteAsync(userId, id, cancellationToken);
 
         return NoContent();
     }

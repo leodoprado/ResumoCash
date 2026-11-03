@@ -5,6 +5,7 @@ using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Application.Categories.Update;
 using ResumoCash.Application.Competences.Close;
 using ResumoCash.Application.Competences.Create;
+using ResumoCash.Application.Competences.GetAll;
 using ResumoCash.Application.Competences.Reopen;
 using ResumoCash.Application.Transactions.Completed;
 using ResumoCash.Application.Transactions.Create;
@@ -69,6 +70,7 @@ builder.Services.AddScoped<ReopenTransactionService>();
 builder.Services.AddScoped<CreateCompetenceService>();
 builder.Services.AddScoped<CloseCompetenceService>();
 builder.Services.AddScoped<ReopenCompetenceService>();
+builder.Services.AddScoped<GetCompetenceService>();
 
 var app = builder.Build();
 

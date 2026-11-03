@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ResumoCash.Application.Categories.Update;
+using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Application.Transactions.Completed;
 using ResumoCash.Application.Transactions.Create;
 using ResumoCash.Application.Transactions.Delete;
