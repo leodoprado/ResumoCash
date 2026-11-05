@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Application.Competences.Close;
 using ResumoCash.Application.Competences.Create;
 using ResumoCash.Application.Competences.GetAll;
@@ -72,7 +72,8 @@ public class CompetencesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
+            "11111111-1111-1111-11" +
+            "11-111111111111"
         );
         
         var result = await _getCompetenceService.ExecuteAsync(userId);

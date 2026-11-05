@@ -1,4 +1,4 @@
-﻿using ResumoCash.Domain.Repositories;
+using ResumoCash.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,9 +21,6 @@ public class GetCategoryByIdService
         var category = await _categoryRepository.GetByIdAsync(userId, categoryId);
 
         if (category is null)
-          return null;
-
-        if (category.UserId != userId)
           return null;
 
         return new GetCategoryByIdResponse(

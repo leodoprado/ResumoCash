@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using ResumoCash.Api.Common.Extensions;
 using ResumoCash.Application.Categories.Create;
 using ResumoCash.Application.Categories.Delete;
 using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Application.Categories.Update;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 
 namespace ResumoCash.Api.Controllers;
 
@@ -37,9 +40,15 @@ public class CategoriesController : ControllerBase
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var result = await _createCategoryService.ExecuteAsync(userId, request);
+        var categoryResult = await _createCategoryService.ExecuteAsync(userId, request);
 
-        return Created($"/api/categories/{result.Id}", result);
+        // Error
+        if (categoryResult.IsT1)
+            return categoryResult.AsT1.ToActionResult(this);
+
+        var category = categoryResult.AsT0;
+
+        return Created($"/api/categories/{category.Id}", category);
     }
 
     [HttpGet]

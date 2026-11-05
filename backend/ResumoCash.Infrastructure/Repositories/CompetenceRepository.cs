@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Enums;
 using ResumoCash.Domain.Repositories;
@@ -58,6 +58,20 @@ public class CompetenceRepository : ICompetenceRepository
             .Where(x => x.UserId == userId)
             .OrderByDescending(x => x.Month)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<bool> ExistsAsync(
+        Guid userId,
+        DateOnly month,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Competences
+            .AnyAsync(
+                competence =>
+                    competence.UserId == userId &&
+                    competence.Month.Year == month.Year &&
+                    competence.Month.Month == month.Month,
+                cancellationToken);
     }
 
     public async Task SaveChangesAsync(

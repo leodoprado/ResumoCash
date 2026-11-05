@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Repositories;
 
@@ -16,7 +15,7 @@ public class CreateCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<CreateCategoryResponse> ExecuteAsync (
+    public async Task<OneOf<CreateCategoryResponse, Error>> ExecuteAsync(
         Guid userId,
         CreateCategoryRequest request)
     {
@@ -27,7 +26,7 @@ public class CreateCategoryService
         var existNameCategory = await _categoryRepository.ExistsByNameAsync(userId, request.Name);
 
         if (existNameCategory)
-            throw new InvalidOperationException("Já existe uma categoria com esse nome.");
+            return CategoryErrors.AlreadyExists;
 
         await _categoryRepository.AddAsync(category);
         await _categoryRepository.SaveChangesAsync();

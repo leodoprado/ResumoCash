@@ -1,4 +1,4 @@
-﻿using ResumoCash.Domain.Entities;
+using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Competences.Close;
@@ -36,27 +36,25 @@ public class CloseCompetenceService
         var nextMonth = competence.Month.AddMonths(1);
 
         // Verifica se a próxima competência já existe
-        var competences = await _competenceRepository.GetByUserIdAsync(
+        var nextCompetenceExists = await _competenceRepository.ExistsAsync(
             userId,
+            nextMonth,
             cancellationToken
         );
 
-        if (competences.Any(x => x.Month == nextMonth))
-            throw new InvalidOperationException(
-                "A próxima competência já está cadastrada.");
+        if (!nextCompetenceExists)
+        {
+            var nextCompetence = new Competence(
+                userId,
+                nextMonth
+            );
 
-        // Cria a próxima competência
-        var nextCompetence = new Competence(
-            userId,
-            nextMonth
-        );
+            await _competenceRepository.AddAsync(
+                nextCompetence,
+                cancellationToken
+            );
+        }
 
-        await _competenceRepository.AddAsync(
-            nextCompetence,
-            cancellationToken
-        );
-
-        // Salva o fechamento e a criação da próxima competência
         await _competenceRepository.SaveChangesAsync(
             cancellationToken
         );

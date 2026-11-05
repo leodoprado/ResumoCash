@@ -1,7 +1,4 @@
-﻿using ResumoCash.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ResumoCash.Domain.Entities;
 
 namespace ResumoCash.Domain.Repositories;
 
