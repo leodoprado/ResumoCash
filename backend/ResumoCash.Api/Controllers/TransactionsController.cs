@@ -47,11 +47,10 @@ public class TransactionsController : ControllerBase
 
         var transactionResult = await _createTransactionService.ExecuteAsync(userId, request, cancellationToken);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
-        var transaction = transactionResult.AsT0;
+        var transaction = transactionResult.GetSuccessResult();
 
         return Created($"/api/transactions/{transaction.Id}", transaction);
     }
@@ -73,11 +72,10 @@ public class TransactionsController : ControllerBase
 
         var transactionResult = await _getTransactionByIdService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
-        var transaction = transactionResult.AsT0;
+        var transaction = transactionResult.GetSuccessResult();
 
         return Ok(transaction);
     }
@@ -89,11 +87,10 @@ public class TransactionsController : ControllerBase
 
         var transactionResult = await _updateTransactionService.ExecuteAsync(userId, id, request);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
-        var transaction = transactionResult.AsT0;
+        var transaction = transactionResult.GetSuccessResult();
 
         return Ok(transaction);
     }
@@ -103,15 +100,10 @@ public class TransactionsController : ControllerBase
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var transactionResult = await _deleteTransactionService.ExecuteAsync(
-            userId,
-            id,
-            cancellationToken
-        );
+        var transactionResult = await _deleteTransactionService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }
@@ -121,15 +113,10 @@ public class TransactionsController : ControllerBase
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var transactionResult = await _completeTransactionService.ExecuteAsync(
-            userId,
-            id,
-            cancellationToken
-        );
+        var transactionResult = await _completeTransactionService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }
@@ -139,15 +126,10 @@ public class TransactionsController : ControllerBase
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var transactionResult = await _reopenTransactionService.ExecuteAsync(
-            userId,
-            id,
-            cancellationToken
-        );
+        var transactionResult = await _reopenTransactionService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (transactionResult.IsT1)
-            return transactionResult.AsT1.ToActionResult(this);
+        if (transactionResult.IsError())
+            return transactionResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }

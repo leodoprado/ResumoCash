@@ -17,7 +17,7 @@ public class CloseCompetenceService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task<OneOf<Success, Error>> ExecuteAsync(
+    public async Task<OneOf<Success, AppError>> ExecuteAsync(
         Guid userId,
         Guid competenceId,
         CancellationToken cancellationToken = default)

@@ -39,11 +39,10 @@ public class CategoriesController : ControllerBase
 
         var categoryResult = await _createCategoryService.ExecuteAsync(userId, request, cancellationToken);
 
-        // Error
-        if (categoryResult.IsT1)
-            return categoryResult.AsT1.ToActionResult(this);
+        if (categoryResult.IsError())
+            return categoryResult.GetErrorResult().ToActionResult(this);
 
-        var category = categoryResult.AsT0;
+        var category = categoryResult.GetSuccessResult();
 
         return Created($"/api/categories/{category.Id}", category);
     }
@@ -53,11 +52,7 @@ public class CategoriesController : ControllerBase
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var categories = await _getCategoriesService.ExecuteAsync(
-            userId,
-            cancellationToken
-            
-        );
+        var categories = await _getCategoriesService.ExecuteAsync(userId, cancellationToken);
 
         return Ok(categories);
     }
@@ -69,11 +64,10 @@ public class CategoriesController : ControllerBase
 
         var categoryResult = await _getCategoryByIdService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (categoryResult.IsT1)
-            return categoryResult.AsT1.ToActionResult(this);
+        if (categoryResult.IsError())
+            return categoryResult.GetErrorResult().ToActionResult(this);
 
-        var category = categoryResult.AsT0;
+        var category = categoryResult.GetSuccessResult();
 
         return Ok(category);
     }
@@ -85,10 +79,10 @@ public class CategoriesController : ControllerBase
 
         var categoryResult = await _updateCategoryService.ExecuteAsync(userId, id, request, cancellationToken);
 
-        if (categoryResult.IsT1)
-            return categoryResult.AsT1.ToActionResult(this);
+        if (categoryResult.IsError())
+            return categoryResult.GetErrorResult().ToActionResult(this);
 
-        var category = categoryResult.AsT0;
+        var category = categoryResult.GetSuccessResult();
 
         return Ok(category);
     }
@@ -100,8 +94,8 @@ public class CategoriesController : ControllerBase
 
         var categoryResult = await _deleteCategoryService.ExecuteAsync(userId, id, cancellationToken);
 
-        if (categoryResult.IsT1)
-            return categoryResult.AsT1.ToActionResult(this);
+        if (categoryResult.IsError())
+            return categoryResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }

@@ -16,7 +16,7 @@ public class DeleteCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<OneOf<Success, Error>> ExecuteAsync(
+    public async Task<OneOf<Success, AppError>> ExecuteAsync(
         Guid userId,
         Guid categoryId,
         CancellationToken cancellationToken = default)

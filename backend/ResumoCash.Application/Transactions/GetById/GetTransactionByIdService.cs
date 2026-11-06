@@ -17,7 +17,7 @@ public class GetTransactionByIdService
         _transactionRepository = transactionRepository;
     }
 
-    public async Task<OneOf<GetTransactionByIdResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<GetTransactionByIdResponse, AppError>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         CancellationToken cancellationToken)

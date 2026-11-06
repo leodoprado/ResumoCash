@@ -15,7 +15,7 @@ public class UpdateTransactionService
         _transactionRepository = transactionRepository;
     }
 
-    public async Task<OneOf<UpdateTransactionResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<UpdateTransactionResponse, AppError>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         UpdateTransactionRequest request,

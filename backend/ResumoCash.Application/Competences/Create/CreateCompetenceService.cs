@@ -16,7 +16,7 @@ public class CreateCompetenceService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task<OneOf<CreateCompetenceResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<CreateCompetenceResponse, AppError>> ExecuteAsync(
         Guid userId,
         CreateCompetenceRequest request,
         CancellationToken cancellationToken = default)

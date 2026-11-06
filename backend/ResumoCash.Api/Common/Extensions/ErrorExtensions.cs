@@ -6,7 +6,7 @@ namespace ResumoCash.Api.Common.Extensions;
 public static class ErrorExtensions
 {
     public static IActionResult ToActionResult(
-        this Error error,
+        this AppError error,
         ControllerBase controller)
     {
         return error.Type switch

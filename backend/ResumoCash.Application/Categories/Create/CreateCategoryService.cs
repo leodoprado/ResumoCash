@@ -15,7 +15,7 @@ public class CreateCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<OneOf<CreateCategoryResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<CreateCategoryResponse, AppError>> ExecuteAsync(
         Guid userId,
         CreateCategoryRequest request,
         CancellationToken cancellationToken)

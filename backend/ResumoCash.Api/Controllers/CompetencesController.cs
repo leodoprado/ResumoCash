@@ -34,11 +34,10 @@ public class CompetencesController : ControllerBase
 
         var competenceResult = await _createCompetenceService.ExecuteAsync(userId, request, cancellationToken);
 
-        // Error
-        if (competenceResult.IsT1)
-            return competenceResult.AsT1.ToActionResult(this);
-
-        var competence = competenceResult.AsT0;
+        if (competenceResult.IsError())
+            return competenceResult.GetErrorResult().ToActionResult(this);
+            
+        var competence = competenceResult.GetSuccessResult();
 
         return Created($"/api/competences/{competence.Id}", competence);
     }
@@ -50,9 +49,8 @@ public class CompetencesController : ControllerBase
 
         var competenceResult = await _closeCompetenceService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (competenceResult.IsT1)
-            return competenceResult.AsT1.ToActionResult(this);
+        if (competenceResult.IsError())
+            return competenceResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }
@@ -64,9 +62,8 @@ public class CompetencesController : ControllerBase
 
         var competenceResult = await _reopenCompetenceService.ExecuteAsync(userId, id, cancellationToken);
 
-        // Error
-        if (competenceResult.IsT1)
-            return competenceResult.AsT1.ToActionResult(this);
+        if (competenceResult.IsError())
+            return competenceResult.GetErrorResult().ToActionResult(this);
 
         return NoContent();
     }

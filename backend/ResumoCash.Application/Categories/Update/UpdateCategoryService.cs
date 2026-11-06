@@ -14,7 +14,7 @@ public class UpdateCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<OneOf<UpdateCategoryResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<UpdateCategoryResponse, AppError>> ExecuteAsync(
         Guid userId,
         Guid categoryId,
         UpdateCategoryRequest request,

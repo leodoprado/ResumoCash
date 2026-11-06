@@ -17,7 +17,7 @@ public class GetCategoryByIdService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<OneOf<GetCategoryByIdResponse, Error>> ExecuteAsync(
+    public async Task<OneOf<GetCategoryByIdResponse, AppError>> ExecuteAsync(
         Guid userId,
         Guid categoryId,
         CancellationToken cancellationToken)

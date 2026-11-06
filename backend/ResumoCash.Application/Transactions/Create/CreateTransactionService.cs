@@ -19,7 +19,7 @@ public class CreateTransactionService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task<OneOf<CreateTransactionResponse, Error>> ExecuteAsync(Guid userId, CreateTransactionRequest request, CancellationToken cancellationToken = default)
+    public async Task<OneOf<CreateTransactionResponse, AppError>> ExecuteAsync(Guid userId, CreateTransactionRequest request, CancellationToken cancellationToken = default)
     {
         var category = await _categoryRepository.GetByIdAsync(
             userId,

@@ -15,7 +15,7 @@ public class DeleteTransactionService
         _transactionRepository = transactionRepository;
     }
 
-    public async Task<OneOf<Success, Error>> ExecuteAsync(
+    public async Task<OneOf<Success, AppError>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         CancellationToken cancellationToken = default)
