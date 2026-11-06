@@ -1,4 +1,8 @@
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 using ResumoCash.Domain.Repositories;
+using Success = OneOf.Types.Success;
 
 namespace ResumoCash.Application.Categories.Delete;
 
@@ -12,7 +16,7 @@ public class DeleteCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task ExecuteAsync(
+    public async Task<OneOf<Success, Error>> ExecuteAsync(
         Guid userId,
         Guid categoryId,
         CancellationToken cancellationToken = default)
@@ -23,17 +27,15 @@ public class DeleteCategoryService
             cancellationToken
         );
 
-        if (category is null || category.UserId != userId)
-        {
-            throw new InvalidOperationException(
-                "Categoria não encontrada."
-            );
-        }
+        if (category is null)
+            return CategoryErrors.NotFound;
 
         category.Deactivate();
 
         await _categoryRepository.SaveChangesAsync(
             cancellationToken
         );
+
+        return new Success();
     }
 }

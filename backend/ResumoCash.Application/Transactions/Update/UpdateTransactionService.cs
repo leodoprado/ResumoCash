@@ -1,4 +1,7 @@
-﻿using ResumoCash.Domain.Repositories;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Transactions.Update;
 
@@ -12,7 +15,7 @@ public class UpdateTransactionService
         _transactionRepository = transactionRepository;
     }
 
-    public async Task<UpdateTransactionResponse> ExecuteAsync(
+    public async Task<OneOf<UpdateTransactionResponse, Error>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         UpdateTransactionRequest request,
@@ -25,11 +28,7 @@ public class UpdateTransactionService
         );
 
         if (transaction is null || transaction.UserId != userId)
-        {
-            throw new InvalidOperationException(
-                "Transação não encontrada."
-            );
-        }
+            return TransactionErrors.NotFound;
 
         var description = request.Description.Trim();
 

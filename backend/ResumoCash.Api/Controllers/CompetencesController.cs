@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ResumoCash.Api.Common.Extensions;
 using ResumoCash.Application.Competences.Close;
 using ResumoCash.Application.Competences.Create;
 using ResumoCash.Application.Competences.GetAll;
@@ -27,54 +28,53 @@ public class CompetencesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateCompetenceRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCompetenceRequest request, CancellationToken cancellationToken = default)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var result = await _createCompetenceService.ExecuteAsync(userId, request);
-        
-        return Created($"/api/competences/{result.Id}", result);
+        var competenceResult = await _createCompetenceService.ExecuteAsync(userId, request, cancellationToken);
+
+        // Error
+        if (competenceResult.IsT1)
+            return competenceResult.AsT1.ToActionResult(this);
+
+        var competence = competenceResult.AsT0;
+
+        return Created($"/api/competences/{competence.Id}", competence);
     }
 
     [HttpPatch("{id:guid}/close")]
-    public async Task<IActionResult> Close(
-        [FromRoute] 
-        Guid id,
-        CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Close([FromRoute] Guid id, CancellationToken cancellationToken = default)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        await _closeCompetenceService.ExecuteAsync(userId, id, cancellationToken);
+        var competenceResult = await _closeCompetenceService.ExecuteAsync(userId, id, cancellationToken);
+
+        // Error
+        if (competenceResult.IsT1)
+            return competenceResult.AsT1.ToActionResult(this);
 
         return NoContent();
     }
 
     [HttpPatch("{id:guid}/reopen")]
-    public async Task<IActionResult> Reopen(
-        [FromRoute]
-        Guid id,
-        CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Reopen([FromRoute] Guid id, CancellationToken cancellationToken = default)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-1111-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        await _reopenCompetenceService.ExecuteAsync(userId, id, cancellationToken);
+        var competenceResult = await _reopenCompetenceService.ExecuteAsync(userId, id, cancellationToken);
+
+        // Error
+        if (competenceResult.IsT1)
+            return competenceResult.AsT1.ToActionResult(this);
 
         return NoContent();
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
     {
-        var userId = Guid.Parse(
-            "11111111-1111-1111-11" +
-            "11-111111111111"
-        );
+        var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
         
         var result = await _getCompetenceService.ExecuteAsync(userId);
 

@@ -1,3 +1,6 @@
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 using ResumoCash.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,14 +17,15 @@ public class GetCategoryByIdService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<GetCategoryByIdResponse?> ExecuteAsync(
+    public async Task<OneOf<GetCategoryByIdResponse, Error>> ExecuteAsync(
         Guid userId,
-        Guid categoryId)
+        Guid categoryId,
+        CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.GetByIdAsync(userId, categoryId);
+        var category = await _categoryRepository.GetByIdAsync(userId, categoryId, cancellationToken);
 
         if (category is null)
-          return null;
+          return CategoryErrors.NotFound;
 
         return new GetCategoryByIdResponse(
             category.Id,

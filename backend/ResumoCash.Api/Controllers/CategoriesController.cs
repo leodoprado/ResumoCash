@@ -5,8 +5,6 @@ using ResumoCash.Application.Categories.Delete;
 using ResumoCash.Application.Categories.GetAll;
 using ResumoCash.Application.Categories.GetById;
 using ResumoCash.Application.Categories.Update;
-using ResumoCash.Domain.Common;
-using ResumoCash.Domain.Common.Errors;
 
 namespace ResumoCash.Api.Controllers;
 
@@ -35,12 +33,11 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(
-        [FromBody] CreateCategoryRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request, CancellationToken cancellationToken = default)
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var categoryResult = await _createCategoryService.ExecuteAsync(userId, request);
+        var categoryResult = await _createCategoryService.ExecuteAsync(userId, request, cancellationToken);
 
         // Error
         if (categoryResult.IsT1)
@@ -52,44 +49,59 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var categories = await _getCategoriesService.ExecuteAsync(userId);
+        var categories = await _getCategoriesService.ExecuteAsync(
+            userId,
+            cancellationToken
+            
+        );
 
         return Ok(categories);
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var category = await _getCategoryByIdService.ExecuteAsync(userId, id);
+        var categoryResult = await _getCategoryByIdService.ExecuteAsync(userId, id, cancellationToken);
 
-        if (category is null)
-            return NotFound();
+        // Error
+        if (categoryResult.IsT1)
+            return categoryResult.AsT1.ToActionResult(this);
+
+        var category = categoryResult.AsT0;
 
         return Ok(category);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, UpdateCategoryRequest request)
+    public async Task<IActionResult> Update(Guid id, UpdateCategoryRequest request, CancellationToken cancellationToken = default)
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        var result = await _updateCategoryService.ExecuteAsync(userId, id, request);
+        var categoryResult = await _updateCategoryService.ExecuteAsync(userId, id, request, cancellationToken);
 
-        return Ok(result);
+        if (categoryResult.IsT1)
+            return categoryResult.AsT1.ToActionResult(this);
+
+        var category = categoryResult.AsT0;
+
+        return Ok(category);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         var userId = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-        await _deleteCategoryService.ExecuteAsync(userId, id, cancellationToken);
+        var categoryResult = await _deleteCategoryService.ExecuteAsync(userId, id, cancellationToken);
+
+        if (categoryResult.IsT1)
+            return categoryResult.AsT1.ToActionResult(this);
 
         return NoContent();
     }

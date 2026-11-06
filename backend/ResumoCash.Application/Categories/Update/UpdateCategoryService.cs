@@ -1,3 +1,6 @@
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Categories.Update;
@@ -11,7 +14,7 @@ public class UpdateCategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<UpdateCategoryResponse> ExecuteAsync(
+    public async Task<OneOf<UpdateCategoryResponse, Error>> ExecuteAsync(
         Guid userId,
         Guid categoryId,
         UpdateCategoryRequest request,
@@ -23,12 +26,8 @@ public class UpdateCategoryService
             cancellationToken
         );
 
-        if (category is null || category.UserId != userId)
-        {
-            throw new InvalidOperationException(
-                "Categoria não encontrada."
-            );
-        }
+        if (category is null)
+            return CategoryErrors.NotFound;
 
         var name = request.Name.Trim();
 

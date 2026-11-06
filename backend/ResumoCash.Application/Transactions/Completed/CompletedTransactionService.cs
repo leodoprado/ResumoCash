@@ -1,7 +1,8 @@
-﻿using ResumoCash.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Repositories;
+using Success = OneOf.Types.Success;
 
 namespace ResumoCash.Application.Transactions.Completed;
 
@@ -14,7 +15,7 @@ public class CompletedTransactionService
         _completedTransactionRepository = completedTransactionRepository;
     }
 
-    public async Task ExecuteAsync(
+    public async Task<OneOf<Success, Error>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         CancellationToken cancellationToken = default)
@@ -26,16 +27,14 @@ public class CompletedTransactionService
         );
 
         if (transaction is null || transaction.UserId != userId)
-        {
-            throw new InvalidOperationException(
-                "Transação não encontrada."
-            );
-        }
+            return TransactionErrors.NotFound;
 
         transaction.Concluir();
 
         await _completedTransactionRepository.SaveChangesAsync(
             cancellationToken
         );
+
+        return new Success();
     }
 }

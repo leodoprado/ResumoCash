@@ -14,9 +14,12 @@ public class GetCategoriesService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<IEnumerable<GetCategoriesResponse>> ExecuteAsync(Guid userId)
+    public async Task<IEnumerable<GetCategoriesResponse>> ExecuteAsync(
+        Guid userId,
+        CancellationToken cancellationToken
+    )
     {
-        var categories = await _categoryRepository.GetByUserIdAsync(userId);
+        var categories = await _categoryRepository.GetByUserIdAsync(userId, cancellationToken);
 
         return categories.Select(category =>
             new GetCategoriesResponse(

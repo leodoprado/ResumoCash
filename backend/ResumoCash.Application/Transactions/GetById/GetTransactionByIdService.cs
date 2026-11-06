@@ -1,4 +1,7 @@
-﻿using ResumoCash.Domain.Repositories;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,18 +17,15 @@ public class GetTransactionByIdService
         _transactionRepository = transactionRepository;
     }
 
-    public async Task<GetTransactionByIdResponse?> ExecuteAsync(
+    public async Task<OneOf<GetTransactionByIdResponse, Error>> ExecuteAsync(
         Guid userId,
         Guid transactionId,
         CancellationToken cancellationToken)
     {
         var transaction = await _transactionRepository.GetByIdAsync(userId, transactionId, cancellationToken);
         
-        if (transaction is null)
-            return null;
-        
-        if (transaction.UserId != userId)
-            return null;
+        if (transaction is null || transaction.UserId != userId)
+            return TransactionErrors.NotFound;
 
         return new GetTransactionByIdResponse(
             transaction.Id,

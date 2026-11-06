@@ -1,4 +1,7 @@
-﻿using ResumoCash.Domain.Entities;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Repositories;
 
 namespace ResumoCash.Application.Competences.Create;
@@ -13,47 +16,37 @@ public class CreateCompetenceService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task<CreateCompetenceResponse> ExecuteAsync(
+    public async Task<OneOf<CreateCompetenceResponse, Error>> ExecuteAsync(
         Guid userId,
         CreateCompetenceRequest request,
         CancellationToken cancellationToken = default)
     {
-        // Verifica se existe uma competência aberta
-        var openCompetence = await _competenceRepository
-            .GetOpenAsync(userId, cancellationToken);
+        var openCompetence = await _competenceRepository.GetOpenAsync(userId, cancellationToken);
 
         if (openCompetence is not null)
-            throw new InvalidOperationException(
-                "O usuário já possui uma competência aberta.");
+            return CompetenceErrors.AlreadyOpen;
 
-        // Normaliza o mês
-        var month = new DateOnly(
-            request.Month.Year,
-            request.Month.Month,
-            1);
+        var month = new DateOnly(request.Month.Year, request.Month.Month, 1);
 
-        // Verifica se já existe uma competência nesse período
         var competences = await _competenceRepository
             .GetByUserIdAsync(userId, cancellationToken);
 
         if (competences.Any(x => x.Month == month))
-            throw new InvalidOperationException(
-                "Já existe uma competência cadastrada para este mês.");
+            return CompetenceErrors.AlreadyExists;
 
-        // Cria a entidade
         var competence = new Competence(userId, month);
 
-        // Persiste
         await _competenceRepository.AddAsync(
             competence,
-            cancellationToken);
+            cancellationToken
+        );
 
-        await _competenceRepository.SaveChangesAsync(
-            cancellationToken);
+        await _competenceRepository.SaveChangesAsync(cancellationToken);
 
         return new CreateCompetenceResponse(
             competence.Id,
             competence.Month,
-            competence.Status);
+            competence.Status
+        );
     }
 }

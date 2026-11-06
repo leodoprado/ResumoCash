@@ -17,19 +17,28 @@ public class CreateCategoryService
 
     public async Task<OneOf<CreateCategoryResponse, Error>> ExecuteAsync(
         Guid userId,
-        CreateCategoryRequest request)
+        CreateCategoryRequest request,
+        CancellationToken cancellationToken)
     {
         var category = new Category(userId,
                                     request.Name,
                                     request.Type);
 
-        var existNameCategory = await _categoryRepository.ExistsByNameAsync(userId, request.Name);
+        var existNameCategory = await _categoryRepository.ExistsByNameAsync(
+            userId,
+            request.Name,
+            cancellationToken
+        );
 
         if (existNameCategory)
             return CategoryErrors.AlreadyExists;
 
-        await _categoryRepository.AddAsync(category);
-        await _categoryRepository.SaveChangesAsync();
+        await _categoryRepository.AddAsync(
+            category,
+            cancellationToken
+        );
+
+        await _categoryRepository.SaveChangesAsync(cancellationToken);
 
         return new CreateCategoryResponse(
             category.Id,

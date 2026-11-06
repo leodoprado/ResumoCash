@@ -1,8 +1,8 @@
-﻿using ResumoCash.Domain.Entities;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ResumoCash.Application.Transactions.Create;
 
@@ -19,7 +19,7 @@ public class CreateTransactionService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task<CreateTransactionResponse> ExecuteAsync(Guid userId, CreateTransactionRequest request, CancellationToken cancellationToken = default)
+    public async Task<OneOf<CreateTransactionResponse, Error>> ExecuteAsync(Guid userId, CreateTransactionRequest request, CancellationToken cancellationToken = default)
     {
         var category = await _categoryRepository.GetByIdAsync(
             userId,
@@ -27,7 +27,7 @@ public class CreateTransactionService
             cancellationToken);
 
         if (category is null)
-            throw new InvalidOperationException("Categoria não encontrada ou inativa.");
+            return TransactionErrors.CategoryNotFound;
 
         var competence = await _competenceRepository.GetByIdAsync(
             userId,
@@ -35,7 +35,7 @@ public class CreateTransactionService
             cancellationToken);
 
         if (competence is null)
-            throw new InvalidOperationException("Competência não encontrada ou inativa.");
+            return TransactionErrors.CompetenceNotFound;
 
         var transaction = new Transaction(
             request.CategoryId,

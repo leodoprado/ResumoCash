@@ -1,5 +1,9 @@
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
 using ResumoCash.Domain.Entities;
 using ResumoCash.Domain.Repositories;
+using Success = OneOf.Types.Success;
 
 namespace ResumoCash.Application.Competences.Close;
 
@@ -13,12 +17,11 @@ public class CloseCompetenceService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task ExecuteAsync(
+    public async Task<OneOf<Success, Error>> ExecuteAsync(
         Guid userId,
         Guid competenceId,
         CancellationToken cancellationToken = default)
     {
-        // Busca a competência do usuário
         var competence = await _competenceRepository.GetByIdAsync(
             userId,
             competenceId,
@@ -26,10 +29,8 @@ public class CloseCompetenceService
         );
 
         if (competence is null)
-            throw new InvalidOperationException(
-                "Competência não encontrada.");
+            return CompetenceErrors.NotFound;
 
-        // Encerra a competência atual
         competence.Close();
 
         // Calcula o próximo mês
@@ -58,5 +59,7 @@ public class CloseCompetenceService
         await _competenceRepository.SaveChangesAsync(
             cancellationToken
         );
+
+        return new Success();
     }
 }

@@ -1,7 +1,8 @@
-﻿using ResumoCash.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OneOf;
+using ResumoCash.Domain.Common;
+using ResumoCash.Domain.Common.Errors;
+using ResumoCash.Domain.Repositories;
+using Success = OneOf.Types.Success;
 
 namespace ResumoCash.Application.Competences.Reopen;
 
@@ -13,7 +14,7 @@ public class ReopenCompetenceService
         _competenceRepository = competenceRepository;
     }
 
-    public async Task ExecuteAsync(
+    public async Task<OneOf<Success, Error>> ExecuteAsync(
         Guid userId,
         Guid competenceId,
         CancellationToken cancellationToken = default)
@@ -24,17 +25,15 @@ public class ReopenCompetenceService
             cancellationToken
         );
 
-        if (competence is null || competence.UserId != userId)
-        {
-            throw new InvalidOperationException(
-                "Competência não encontrada."
-            );
-        }
+        if (competence is null)
+            return CompetenceErrors.NotFound;
 
         competence.Reopen();
 
         await _competenceRepository.SaveChangesAsync(
             cancellationToken
         );
+
+        return new Success();
     }
 }
