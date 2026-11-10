@@ -19,6 +19,7 @@ using ResumoCash.Application.Transactions.GetById;
 using ResumoCash.Application.Transactions.Reopen;
 using ResumoCash.Application.Transactions.Update;
 using ResumoCash.Application.Users.Create;
+using ResumoCash.Application.Users.GetCurrent;
 using ResumoCash.Application.Users.Login;
 using ResumoCash.Domain.Repositories;
 using ResumoCash.Domain.Security;
@@ -79,6 +80,7 @@ builder.Services.AddScoped<ITokenService, JwtTokenService>();
 // Users
 builder.Services.AddScoped<CreateUserService>();
 builder.Services.AddScoped<LoginUserService>();
+builder.Services.AddScoped<GetCurrentUserService>();
 
 // Categories
 builder.Services.AddScoped<CreateCategoryService>();
