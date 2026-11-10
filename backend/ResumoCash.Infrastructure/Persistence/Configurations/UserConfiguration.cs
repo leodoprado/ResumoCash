@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ResumoCash.Domain.Entities;
 
@@ -30,8 +30,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(500)
             .IsRequired();
 
-        builder.Property(x => x.Active)
-            .HasColumnName("active")
+        builder.Property(x => x.Status)
+            .HasColumnName("status")
+            .HasMaxLength(20)
+            .HasConversion<string>()
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)

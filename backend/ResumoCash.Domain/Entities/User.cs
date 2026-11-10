@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Text;
+using ResumoCash.Domain.Enums;
 
 namespace ResumoCash.Domain.Entities;
 
@@ -22,7 +19,7 @@ public class User
         Name = name.Trim();
         Email = email.Trim().ToLowerInvariant();
         PasswordHash = passwordHash;
-        Active = true;
+        Status = UserStatus.Active;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -30,7 +27,7 @@ public class User
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string PasswordHash { get; private set; }
-    public bool Active { get; private set; }
+    public UserStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public ICollection<Category> Categories { get; private set; } = new List<Category>();

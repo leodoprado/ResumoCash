@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Api.Common.Extensions;
 using ResumoCash.Application.Transactions.Completed;
@@ -10,6 +11,7 @@ using ResumoCash.Application.Transactions.Update;
 
 namespace ResumoCash.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/transactions")]
 public class TransactionsController : ControllerBase

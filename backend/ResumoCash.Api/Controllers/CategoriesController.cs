@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Api.Common.Extensions;
 using ResumoCash.Application.Categories.Create;
@@ -8,6 +9,7 @@ using ResumoCash.Application.Categories.Update;
 
 namespace ResumoCash.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/categories")]
 public class CategoriesController : ControllerBase

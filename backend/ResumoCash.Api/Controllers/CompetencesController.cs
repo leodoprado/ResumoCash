@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumoCash.Api.Common.Extensions;
 using ResumoCash.Application.Competences.Close;
@@ -7,6 +8,7 @@ using ResumoCash.Application.Competences.Reopen;
 
 namespace ResumoCash.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/competences")]
 public class CompetencesController : ControllerBase
